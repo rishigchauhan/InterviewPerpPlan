@@ -1,1075 +1,523 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#09111f" />
-    <title>.NET Interview Notebook | Questions 1–50</title>
-
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --bg-dark: #09111f;
-            --bg-card: rgba(255, 255, 255, 0.96);
-            --primary: #6c5ce7;
-            --secondary: #00cec9;
-            --accent: #fd79a8;
-            --warning: #fdcb6e;
-            --success: #00b894;
-            --danger: #ff7675;
-            --text-dark: #172033;
-            --muted: #6b7280;
-            --border: rgba(15, 23, 42, 0.09);
-            --shadow: 0 18px 45px rgba(9, 17, 31, 0.12);
-            --radius-lg: 26px;
-            --radius-md: 18px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-dark);
-            background:
-                radial-gradient(circle at top left, rgba(108, 92, 231, 0.28), transparent 34%),
-                radial-gradient(circle at top right, rgba(0, 206, 201, 0.24), transparent 32%),
-                linear-gradient(135deg, #f8fbff 0%, #eef4ff 40%, #fff7fb 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        button,
-        input {
-            font: inherit;
-        }
-
-        .hero-wrap {
-            position: relative;
-            background:
-                linear-gradient(135deg, rgba(9, 17, 31, 0.96), rgba(25, 42, 86, 0.94)),
-                url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.07'%3E%3Cpath d='M0 40H160M0 80H160M0 120H160M40 0V160M80 0V160M120 0V160'/%3E%3C/g%3E%3C/svg%3E");
-            color: #fff;
-            border-bottom-left-radius: 44px;
-            border-bottom-right-radius: 44px;
-            overflow: hidden;
-        }
-
-        .hero-wrap::before,
-        .hero-wrap::after {
-            content: "";
-            position: absolute;
-            width: 360px;
-            height: 360px;
-            border-radius: 50%;
-            filter: blur(8px);
-            opacity: .65;
-            animation: floatBlob 9s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .hero-wrap::before {
-            background: radial-gradient(circle, rgba(108,92,231,.65), transparent 65%);
-            top: -130px;
-            left: -80px;
-        }
-
-        .hero-wrap::after {
-            background: radial-gradient(circle, rgba(0,206,201,.55), transparent 65%);
-            bottom: -160px;
-            right: -90px;
-            animation-delay: 1.4s;
-        }
-
-        @keyframes floatBlob {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(24px) scale(1.06); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            padding: 58px 0 46px;
-        }
-
-        .badge-soft {
-            display: inline-flex;
-            gap: 8px;
-            align-items: center;
-            padding: 9px 14px;
-            border-radius: 999px;
-            background: rgba(255,255,255,.12);
-            border: 1px solid rgba(255,255,255,.22);
-            backdrop-filter: blur(8px);
-            color: #eaf7ff;
-            font-weight: 600;
-            font-size: 0.88rem;
-        }
-
-        .hero-title {
-            font-size: clamp(2rem, 8vw, 4.4rem);
-            line-height: 1.02;
-            letter-spacing: -0.05em;
-            font-weight: 800;
-            margin: 18px 0;
-        }
-
-        .hero-title span {
-            background: linear-gradient(90deg, #74b9ff, #81ecec, #ffeaa7, #fd79a8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero-subtitle {
-            max-width: 820px;
-            color: rgba(255,255,255,.78);
-            font-size: 1.07rem;
-            line-height: 1.8;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(120px, 1fr));
-            gap: 14px;
-            margin-top: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,.10);
-            border: 1px solid rgba(255,255,255,.16);
-            border-radius: 18px;
-            padding: 16px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-card strong {
-            display: block;
-            font-size: 1.75rem;
-            line-height: 1;
-        }
-
-        .stat-card small {
-            color: rgba(255,255,255,.72);
-        }
-
-        .glass-panel {
-            margin-top: -34px;
-            position: relative;
-            z-index: 5;
-            background: rgba(255,255,255,.84);
-            border: 1px solid rgba(255,255,255,.75);
-            box-shadow: var(--shadow);
-            border-radius: var(--radius-lg);
-            backdrop-filter: blur(18px);
-            padding: 18px;
-        }
-
-        .search-box {
-            position: relative;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 17px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--muted);
-            z-index: 2;
-        }
-
-        .search-box input {
-            border-radius: 999px;
-            padding: 14px 18px 14px 46px;
-            border: 1px solid var(--border);
-            box-shadow: none !important;
-            min-height: 52px;
-            background: #fff;
-        }
-
-        .search-box input:focus {
-            border-color: rgba(108, 92, 231, .55);
-        }
-
-        .topic-tabs-wrapper {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            padding: 12px 0;
-            background: linear-gradient(180deg, rgba(248,251,255,.96), rgba(248,251,255,.78));
-            backdrop-filter: blur(12px);
-        }
-
-        .topic-tabs {
-            gap: 10px;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 3px 2px 9px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .topic-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .topic-tabs .nav-item {
-            flex: 0 0 auto;
-        }
-
-        .topic-tabs .nav-link {
-            border: 0;
-            color: #475569;
-            background: #fff;
-            border-radius: 999px;
-            padding: 11px 16px;
-            font-weight: 700;
-            box-shadow: 0 8px 22px rgba(15, 23, 42, .06);
-            transition: .25s ease;
-            white-space: nowrap;
-            min-height: 44px;
-        }
-
-        .topic-tabs .nav-link:hover {
-            transform: translateY(-2px);
-        }
-
-        .topic-tabs .nav-link.active {
-            color: white;
-            background: linear-gradient(135deg, var(--primary), #0984e3);
-        }
-
-        .section-title {
-            font-weight: 800;
-            letter-spacing: -0.035em;
-        }
-
-        .topic-intro {
-            background: linear-gradient(135deg, #ffffff, #f7fbff);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            box-shadow: 0 14px 36px rgba(15, 23, 42, .07);
-        }
-
-        .flow-line {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-            color: #334155;
-            font-weight: 600;
-            font-size: .92rem;
-        }
-
-        .flow-pill {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            padding: 8px 13px;
-            box-shadow: 0 7px 18px rgba(15,23,42,.05);
-        }
-
-        .question-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: 0 10px 26px rgba(15, 23, 42, .07);
-            transition: .25s ease;
-            animation: fadeUp .5s ease both;
-        }
-
-        .question-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 42px rgba(15, 23, 42, .12);
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .question-head {
-            cursor: pointer;
-            padding: 18px;
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-            justify-content: space-between;
-            min-height: 76px;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .question-head[aria-expanded="true"] .chevron {
-            transform: rotate(180deg);
-        }
-
-        .chevron {
-            transition: .25s ease;
-        }
-
-        .q-left {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-            min-width: 0;
-        }
-
-        .q-number {
-            width: 42px;
-            height: 42px;
-            min-width: 42px;
-            display: grid;
-            place-items: center;
-            color: #fff;
-            border-radius: 14px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            box-shadow: 0 8px 20px rgba(108, 92, 231, .25);
-        }
-
-        .question-title {
-            font-weight: 800;
-            line-height: 1.35;
-            margin: 0;
-            letter-spacing: -0.02em;
-            overflow-wrap: anywhere;
-        }
-
-        .topic-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-            font-size: .76rem;
-            font-weight: 700;
-            color: #64748b;
-            background: #f8fafc;
-            padding: 5px 9px;
-            border-radius: 999px;
-        }
-
-        .answer-body {
-            padding: 0 18px 18px 74px;
-        }
-
-        .answer-block {
-            border-top: 1px dashed rgba(15, 23, 42, .14);
-            padding-top: 16px;
-        }
-
-        .mini-heading {
-            color: #0f172a;
-            font-weight: 800;
-            margin-bottom: 7px;
-            font-size: .92rem;
-        }
-
-        .note-box {
-            background: #f8fafc;
-            border: 1px solid rgba(15, 23, 42, .08);
-            border-radius: 15px;
-            padding: 12px 14px;
-            margin-bottom: 12px;
-            color: #475569;
-            line-height: 1.65;
-        }
-
-        .visual-box {
-            background: #08111f;
-            color: #dbeafe;
-            border-radius: 16px;
-            padding: 14px;
-            font-family: "Courier New", monospace;
-            white-space: pre-wrap;
-            font-size: .86rem;
-            line-height: 1.55;
-            margin-bottom: 12px;
-            overflow-x: auto;
-        }
-
-        .answer-line {
-            border-left: 4px solid var(--secondary);
-            background: linear-gradient(90deg, rgba(0,206,201,.12), rgba(255,255,255,.6));
-            padding: 12px 14px;
-            border-radius: 12px;
-            line-height: 1.65;
-            font-weight: 500;
-        }
-
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 7px 10px;
-            border-radius: 999px;
-            background: #eef2ff;
-            color: #3730a3;
-            font-size: .78rem;
-            font-weight: 700;
-            margin: 3px;
-        }
-
-        .progress-wrap {
-            height: 10px;
-            background: #e2e8f0;
-            border-radius: 999px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--warning));
-            transition: width .4s ease;
-        }
-
-        .floating-tools {
-            position: sticky;
-            top: 82px;
-            z-index: 10;
-        }
-
-        .side-card {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 12px 30px rgba(15, 23, 42, .08);
-            padding: 20px;
-        }
-
-        .topic-dot {
-            width: 10px;
-            height: 10px;
-            display: inline-block;
-            border-radius: 50%;
-            background: var(--primary);
-        }
-
-        .topic-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 9px 0;
-            border-bottom: 1px dashed rgba(15, 23, 42, .10);
-            color: #334155;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: .88rem;
-        }
-
-        .topic-link:last-child {
-            border-bottom: 0;
-        }
-
-        .footer-note {
-            background: #09111f;
-            color: rgba(255,255,255,.72);
-            border-top-left-radius: 38px;
-            border-top-right-radius: 38px;
-            padding: 28px 0;
-            margin-top: 54px;
-        }
-
-        .no-result {
-            display: none;
-            background: #fff;
-            border: 1px dashed rgba(15, 23, 42, .2);
-            border-radius: var(--radius-lg);
-            padding: 30px;
-            text-align: center;
-        }
-
-        .btn-gradient {
-            border: 0;
-            color: #fff;
-            background: linear-gradient(135deg, var(--primary), #0984e3);
-            border-radius: 999px;
-            font-weight: 800;
-            padding: 11px 17px;
-            box-shadow: 0 10px 24px rgba(108,92,231,.24);
-            min-height: 46px;
-        }
-
-        .btn-outline-soft {
-            border: 1px solid rgba(15,23,42,.12);
-            background: #fff;
-            border-radius: 999px;
-            font-weight: 800;
-            color: #334155;
-            padding: 11px 17px;
-            min-height: 46px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: .01ms !important;
-                animation-iteration-count: 1 !important;
-                scroll-behavior: auto !important;
-                transition-duration: .01ms !important;
-            }
-        }
-
-        @media (max-width: 991px) {
-            .hero-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .answer-body {
-                padding-left: 18px;
-            }
-            .floating-tools {
-                position: static;
-            }
-            .side-card.topic-index-card {
-                display: none;
-            }
-        }
-
-        @media (max-width: 575px) {
-            .container {
-                padding-left: 14px;
-                padding-right: 14px;
-            }
-
-            .hero-wrap {
-                border-bottom-left-radius: 26px;
-                border-bottom-right-radius: 26px;
-            }
-
-            .hero-content {
-                padding: 36px 0 32px;
-            }
-
-            .hero-title {
-                letter-spacing: -0.04em;
-                margin: 14px 0;
-            }
-
-            .hero-subtitle {
-                font-size: .95rem;
-                line-height: 1.65;
-            }
-
-            .hero-stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                margin-top: 22px;
-            }
-
-            .stat-card {
-                padding: 13px;
-                border-radius: 16px;
-            }
-
-            .stat-card strong {
-                font-size: 1.35rem;
-            }
-
-            .glass-panel {
-                margin-top: -18px;
-                border-radius: 20px;
-                padding: 14px;
-            }
-
-            .search-box input {
-                min-height: 50px;
-                font-size: .92rem;
-            }
-
-            .btn-gradient,
-            .btn-outline-soft {
-                width: 100%;
-                margin-right: 0 !important;
-                margin-bottom: 8px;
-            }
-
-            .topic-tabs-wrapper {
-                padding: 10px 0 8px;
-            }
-
-            .topic-tabs .nav-link {
-                padding: 10px 14px;
-                font-size: .88rem;
-            }
-
-            .topic-intro {
-                padding: 18px;
-                border-radius: 20px;
-            }
-
-            .question-head {
-                padding: 15px;
-                min-height: 74px;
-            }
-
-            .q-left {
-                gap: 11px;
-            }
-
-            .q-number {
-                width: 36px;
-                height: 36px;
-                min-width: 36px;
-                border-radius: 12px;
-                font-size: .9rem;
-            }
-
-            .question-title {
-                font-size: .98rem;
-            }
-
-            .answer-body {
-                padding: 0 14px 15px 14px;
-            }
-
-            .visual-box {
-                font-size: .78rem;
-                padding: 12px;
-            }
-
-            .note-box,
-            .answer-line {
-                font-size: .92rem;
-            }
-
-            .flow-line {
-                gap: 7px;
-            }
-
-            .flow-pill {
-                padding: 7px 10px;
-                font-size: .82rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>.NET Full-Stack Interview Notebook | 100 Questions</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#111827;
+      --muted:#64748b;
+      --card:#ffffff;
+      --line:rgba(15,23,42,.10);
+      --purple:#6d5dfc;
+      --blue:#0984e3;
+      --cyan:#00cec9;
+      --pink:#fd79a8;
+      --yellow:#fdcb6e;
+      --green:#00b894;
+      --red:#ff7675;
+      --dark:#07111f;
+      --shadow:0 18px 50px rgba(15,23,42,.12);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 5% 5%, rgba(109,93,252,.22), transparent 28%),
+        radial-gradient(circle at 95% 0%, rgba(0,206,201,.20), transparent 25%),
+        radial-gradient(circle at 70% 110%, rgba(253,121,168,.16), transparent 30%),
+        linear-gradient(135deg,#f8fbff 0%, #eef5ff 46%, #fff7fb 100%);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .hero{
+      position:relative;
+      color:#fff;
+      background:
+        linear-gradient(135deg,rgba(7,17,31,.98),rgba(31,41,80,.96)),
+        url("data:image/svg+xml,%3Csvg width='180' height='180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.07'%3E%3Cpath d='M0 45H180M0 90H180M0 135H180M45 0V180M90 0V180M135 0V180'/%3E%3Ccircle cx='90' cy='90' r='62'/%3E%3C/g%3E%3C/svg%3E");
+      border-bottom-left-radius:44px;
+      border-bottom-right-radius:44px;
+      overflow:hidden;
+    }
+    .hero:before,.hero:after{
+      content:"";
+      position:absolute;
+      width:380px;height:380px;border-radius:999px;
+      filter:blur(12px);
+      opacity:.65;
+      animation:blob 10s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .hero:before{background:radial-gradient(circle,rgba(109,93,252,.68),transparent 67%);top:-160px;left:-110px}
+    .hero:after{background:radial-gradient(circle,rgba(0,206,201,.56),transparent 65%);right:-120px;bottom:-170px;animation-delay:1.2s}
+    @keyframes blob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(22px) scale(1.06)}}
+
+    .hero-inner{position:relative;z-index:2;padding:48px 0 42px}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:9px 14px;border-radius:999px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.20);
+      color:#eaf7ff;font-weight:800;font-size:.86rem;
+      backdrop-filter:blur(10px);
+    }
+    .hero-title{
+      margin:18px 0 14px;
+      font-size:clamp(2.1rem,7vw,4.8rem);
+      line-height:.98;
+      letter-spacing:-.06em;
+      font-weight:900;
+    }
+    .hero-title span{
+      background:linear-gradient(90deg,#74b9ff,#81ecec,#ffeaa7,#fd79a8);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .hero-sub{max-width:900px;color:rgba(255,255,255,.78);font-size:1.05rem;line-height:1.8}
+    .stat-grid{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:14px;margin-top:28px}
+    .stat{
+      padding:16px;border-radius:20px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.16);
+      backdrop-filter:blur(12px);
+    }
+    .stat strong{font-size:1.75rem;display:block;line-height:1}
+    .stat small{color:rgba(255,255,255,.70);font-weight:600}
+
+    .control-panel{
+      position:relative;z-index:5;margin-top:-30px;
+      background:rgba(255,255,255,.86);
+      border:1px solid rgba(255,255,255,.74);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      backdrop-filter:blur(18px);
+      padding:16px;
+    }
+    .search-wrap{position:relative}
+    .search-wrap i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);z-index:2}
+    .search-wrap input{
+      min-height:52px;border-radius:999px;border:1px solid var(--line);
+      padding:14px 16px 14px 46px;
+      box-shadow:none!important;
+      background:#fff;
+    }
+    .btn-main,.btn-soft{
+      min-height:46px;border-radius:999px;font-weight:900;padding:11px 16px;border:0;
+    }
+    .btn-main{color:#fff;background:linear-gradient(135deg,var(--purple),var(--blue));box-shadow:0 10px 25px rgba(109,93,252,.24)}
+    .btn-soft{background:#fff;color:#334155;border:1px solid var(--line)}
+    .progress-shell{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+    .progress-bar2{height:100%;width:0%;background:linear-gradient(90deg,var(--purple),var(--cyan),var(--yellow));transition:.35s}
+
+    .tabs-sticky{
+      position:sticky;top:0;z-index:20;
+      padding:12px 0 8px;
+      background:linear-gradient(180deg,rgba(248,251,255,.96),rgba(248,251,255,.78));
+      backdrop-filter:blur(12px);
+    }
+    .topic-tabs{display:flex;gap:10px;overflow-x:auto;flex-wrap:nowrap;padding:2px 2px 9px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .topic-tabs::-webkit-scrollbar{display:none}
+    .topic-tabs button{
+      white-space:nowrap;border:0;border-radius:999px;
+      padding:11px 15px;font-weight:900;
+      color:#475569;background:#fff;
+      box-shadow:0 8px 22px rgba(15,23,42,.06);
+      min-height:44px;
+    }
+    .topic-tabs button.active{color:#fff;background:linear-gradient(135deg,var(--purple),var(--blue))}
+
+    .side-card,.intro-card,.question-card{
+      background:rgba(255,255,255,.96);
+      border:1px solid var(--line);
+      box-shadow:0 12px 34px rgba(15,23,42,.08);
+      border-radius:var(--radius);
+    }
+    .side-card{padding:19px;position:sticky;top:82px}
+    .intro-card{padding:23px;margin-bottom:18px}
+    .topic-link{
+      display:flex;align-items:center;justify-content:space-between;
+      text-decoration:none;color:#334155;font-weight:800;
+      padding:9px 0;border-bottom:1px dashed rgba(15,23,42,.12);font-size:.88rem;
+    }
+    .topic-link:last-child{border-bottom:0}
+    .dot{width:10px;height:10px;border-radius:99px;display:inline-block;margin-right:7px;background:var(--purple)}
+
+    .question-list{display:grid;gap:14px}
+    .question-card{overflow:hidden;transition:.25s ease;animation:fadeUp .45s ease both}
+    .question-card:hover{transform:translateY(-3px);box-shadow:0 20px 46px rgba(15,23,42,.13)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .question-head{
+      padding:17px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+      cursor:pointer;min-height:76px;-webkit-tap-highlight-color:transparent;
+    }
+    .question-head[aria-expanded="true"] .chev{transform:rotate(180deg)}
+    .chev{transition:.22s}
+    .q-left{display:flex;gap:13px;min-width:0}
+    .num{
+      flex:0 0 auto;width:43px;height:43px;border-radius:15px;
+      display:grid;place-items:center;color:#fff;font-weight:900;
+      background:linear-gradient(135deg,var(--purple),var(--pink));
+      box-shadow:0 8px 20px rgba(109,93,252,.24);
+    }
+    .q-title{font-weight:900;line-height:1.35;font-size:1.03rem;margin:0;letter-spacing:-.02em;overflow-wrap:anywhere}
+    .tag{display:inline-flex;gap:6px;align-items:center;margin-top:8px;padding:5px 9px;border-radius:999px;background:#f8fafc;color:#64748b;font-size:.76rem;font-weight:900}
+
+    .answer{padding:0 17px 17px 73px}
+    .answer-inner{border-top:1px dashed rgba(15,23,42,.16);padding-top:16px}
+    .mini-title{font-size:.91rem;font-weight:900;margin:0 0 7px;color:#0f172a}
+    .note{
+      border:1px solid rgba(15,23,42,.08);
+      background:#f8fafc;
+      border-radius:16px;
+      padding:12px 14px;
+      color:#475569;
+      line-height:1.65;
+      margin-bottom:12px;
+    }
+
+    .visual-flow{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .flow-node{
+      position:relative;min-height:82px;border-radius:18px;
+      padding:13px;background:#08111f;color:#e6f0ff;
+      border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+      display:flex;align-items:center;
+      font-weight:800;line-height:1.35;
+    }
+    .flow-node:before{
+      content:"";position:absolute;width:80px;height:80px;border-radius:99px;
+      right:-28px;top:-28px;background:rgba(0,206,201,.18);
+    }
+    .flow-node:nth-child(2):before{background:rgba(253,203,110,.20)}
+    .flow-node:nth-child(3):before{background:rgba(253,121,168,.20)}
+    .flow-index{
+      display:inline-grid;place-items:center;flex:0 0 auto;
+      width:25px;height:25px;border-radius:9px;
+      background:rgba(255,255,255,.12);
+      margin-right:9px;color:#fff;font-size:.78rem;
+    }
+    .answer-line{
+      border-left:4px solid var(--cyan);
+      background:linear-gradient(90deg,rgba(0,206,201,.14),rgba(255,255,255,.70));
+      border-radius:14px;
+      padding:12px 14px;
+      line-height:1.65;
+      font-weight:600;
+      color:#334155;
+    }
+
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:.78rem;font-weight:900;margin:3px}
+    .no-result{display:none;background:#fff;border:1px dashed rgba(15,23,42,.24);border-radius:var(--radius);padding:30px;text-align:center}
+    footer{margin-top:54px;background:#07111f;color:rgba(255,255,255,.72);padding:28px 0;border-top-left-radius:38px;border-top-right-radius:38px}
+
+    @media (prefers-reduced-motion:reduce){
+      *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+    }
+    @media(max-width:991px){
+      .stat-grid{grid-template-columns:repeat(2,1fr)}
+      .side-card{position:static}
+      .desktop-only{display:none}
+      .answer{padding-left:17px}
+    }
+    @media(max-width:575px){
+      .container{padding-left:14px;padding-right:14px}
+      .hero{border-bottom-left-radius:26px;border-bottom-right-radius:26px}
+      .hero-inner{padding:34px 0 30px}
+      .hero-title{letter-spacing:-.045em;margin:14px 0}
+      .hero-sub{font-size:.94rem;line-height:1.65}
+      .stat-grid{grid-template-columns:repeat(2,1fr);gap:9px;margin-top:20px}
+      .stat{padding:12px;border-radius:16px}
+      .stat strong{font-size:1.32rem}
+      .control-panel{margin-top:-18px;border-radius:20px;padding:14px}
+      .btn-main,.btn-soft{width:100%;margin-bottom:8px}
+      .intro-card{padding:17px;border-radius:20px}
+      .question-head{padding:14px;gap:9px}
+      .q-left{gap:10px}
+      .num{width:36px;height:36px;border-radius:12px;font-size:.9rem}
+      .q-title{font-size:.96rem}
+      .answer{padding:0 14px 15px}
+      .visual-flow{grid-template-columns:1fr}
+      .flow-node{min-height:64px}
+      .note,.answer-line{font-size:.92rem}
+    }
+  </style>
 </head>
 
 <body>
-    <header class="hero-wrap">
-        <div class="container hero-content">
-            <div class="badge-soft">
-                <i class="bi bi-journal-code"></i>
-                Personal Interview Notebook
-            </div>
+  <header class="hero">
+    <div class="container hero-inner">
+      <div class="eyebrow"><i class="bi bi-journal-code"></i> Personal Full-Stack Interview Notebook</div>
+      <h1 class="hero-title">.NET + Angular <span>100 Questions</span></h1>
+      <p class="hero-sub">
+        Practical interview preparation notebook for C#, advanced memory concepts, ASP.NET Core internals,
+        Web API security/performance, SQL Server optimization, and Angular advanced topics.
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><strong>100</strong><small>Interview questions</small></div>
+        <div class="stat"><strong>10</strong><small>Focused sections</small></div>
+        <div class="stat"><strong>Visual</strong><small>Workflow-based learning</small></div>
+        <div class="stat"><strong>Mobile</strong><small>Reading friendly</small></div>
+      </div>
+    </div>
+  </header>
 
-            <h1 class="hero-title">
-                .NET Interview <span>Questions 1–50</span>
-            </h1>
-
-            <p class="hero-subtitle">
-                A clean reading notebook for C#, .NET Core, ASP.NET Core Web API, SQL Server, and Angular.
-                Use it for concept clarity, practical revision, and confident interview answers.
-            </p>
-
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <strong>50</strong>
-                    <small>Core questions</small>
-                </div>
-                <div class="stat-card">
-                    <strong>6</strong>
-                    <small>Focused topics</small>
-                </div>
-                <div class="stat-card">
-                    <strong>20%</strong>
-                    <small>High-value concepts</small>
-                </div>
-                <div class="stat-card">
-                    <strong>80%</strong>
-                    <small>Interview impact</small>
-                </div>
-            </div>
+  <main class="container">
+    <section class="control-panel">
+      <div class="row g-3 align-items-center">
+        <div class="col-lg-7">
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input id="searchInput" type="search" class="form-control" placeholder="Search: GC, Kestrel, JWT, SQL index, RxJS..." autocomplete="off">
+          </div>
         </div>
-    </header>
-
-    <main class="container">
-        <section class="glass-panel">
-            <div class="row g-3 align-items-center">
-                <div class="col-lg-7">
-                    <div class="search-box">
-                        <i class="bi bi-search"></i>
-                        <input id="searchInput" type="search" class="form-control" placeholder="Search: DI, JWT, SQL, async, Angular..." autocomplete="off" />
-                    </div>
-                </div>
-                <div class="col-lg-5 text-lg-end">
-                    <button type="button" class="btn btn-gradient me-2 mb-2 mb-lg-0" onclick="expandVisible()">
-                        <i class="bi bi-arrows-expand me-1"></i> Expand Visible
-                    </button>
-                    <button type="button" class="btn btn-outline-soft" onclick="collapseAll()">
-                        <i class="bi bi-arrows-collapse me-1"></i> Collapse All
-                    </button>
-                </div>
-            </div>
-
-            <div class="mt-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <small class="fw-bold text-secondary-emphasis">Reading progress</small>
-                    <small id="progressText" class="fw-bold text-secondary-emphasis">0 / 50 opened</small>
-                </div>
-                <div class="progress-wrap">
-                    <div id="progressFill" class="progress-fill"></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="topic-tabs-wrapper">
-            <ul class="nav nav-pills topic-tabs" id="topicTabs" role="tablist" aria-label="Question topic tabs">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" data-topic-filter="all" data-bs-toggle="pill" data-bs-target="#all" type="button">All</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-topic-filter="C# Core" data-bs-toggle="pill" data-bs-target="#csharp" type="button">C#</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-topic-filter="Advanced C#" data-bs-toggle="pill" data-bs-target="#advanced" type="button">Advanced C#</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-topic-filter=".NET Core" data-bs-toggle="pill" data-bs-target="#dotnet" type="button">.NET Core</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-topic-filter="ASP.NET Core Web API" data-bs-toggle="pill" data-bs-target="#api" type="button">Web API</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-topic-filter="EF Core + SQL Server" data-bs-toggle="pill" data-bs-target="#sql" type="button">SQL / EF</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-topic-filter="Angular" data-bs-toggle="pill" data-bs-target="#angular" type="button">Angular</button>
-                </li>
-            </ul>
-        </section>
-
-        <div class="row g-4">
-            <aside class="col-lg-3">
-                <div class="floating-tools">
-                    <div class="side-card mb-3">
-                        <h5 class="fw-bold mb-2">Study Workflow</h5>
-                        <div class="flow-line">
-                            <span class="flow-pill">Read</span>
-                            <i class="bi bi-arrow-right"></i>
-                            <span class="flow-pill">Visualize</span>
-                            <i class="bi bi-arrow-right"></i>
-                            <span class="flow-pill">Speak</span>
-                            <i class="bi bi-arrow-right"></i>
-                            <span class="flow-pill">Revise</span>
-                        </div>
-                    </div>
-
-                    <div class="side-card topic-index-card">
-                        <h5 class="fw-bold mb-3">Topic Index</h5>
-                        <a href="#" class="topic-link" onclick="activateTopic('C# Core');return false;"><span><span class="topic-dot"></span> C# Core</span><span>10</span></a>
-                        <a href="#" class="topic-link" onclick="activateTopic('Advanced C#');return false;"><span><span class="topic-dot" style="background:#fd79a8"></span> Advanced C#</span><span>10</span></a>
-                        <a href="#" class="topic-link" onclick="activateTopic('.NET Core');return false;"><span><span class="topic-dot" style="background:#00cec9"></span> .NET Core</span><span>8</span></a>
-                        <a href="#" class="topic-link" onclick="activateTopic('ASP.NET Core Web API');return false;"><span><span class="topic-dot" style="background:#fdcb6e"></span> Web API</span><span>9</span></a>
-                        <a href="#" class="topic-link" onclick="activateTopic('EF Core + SQL Server');return false;"><span><span class="topic-dot" style="background:#00b894"></span> SQL / EF Core</span><span>10</span></a>
-                        <a href="#" class="topic-link" onclick="activateTopic('Angular');return false;"><span><span class="topic-dot" style="background:#ff7675"></span> Angular</span><span>3</span></a>
-                    </div>
-                </div>
-            </aside>
-
-            <section class="col-lg-9">
-                <div class="topic-intro mb-4">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-                        <div>
-                            <h2 class="section-title mb-2">Questions 1–50 Notebook</h2>
-                            <p class="text-secondary mb-0">
-                                Tap any card to read: why asked, visual diagram, practical use, and final interview answer.
-                            </p>
-                        </div>
-                        <div>
-                            <span class="chip"><i class="bi bi-lightning-charge"></i> Practical</span>
-                            <span class="chip"><i class="bi bi-diagram-3"></i> Visual</span>
-                            <span class="chip"><i class="bi bi-mic"></i> Speak-ready</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="all">
-                        <div id="questionListAll" class="vstack gap-3"></div>
-                    </div>
-
-                    <div class="tab-pane fade" id="csharp">
-                        <div class="vstack gap-3 topic-container" data-render-topic="C# Core" data-prefix="csharp"></div>
-                    </div>
-
-                    <div class="tab-pane fade" id="advanced">
-                        <div class="vstack gap-3 topic-container" data-render-topic="Advanced C#" data-prefix="advanced"></div>
-                    </div>
-
-                    <div class="tab-pane fade" id="dotnet">
-                        <div class="vstack gap-3 topic-container" data-render-topic=".NET Core" data-prefix="dotnet"></div>
-                    </div>
-
-                    <div class="tab-pane fade" id="api">
-                        <div class="vstack gap-3 topic-container" data-render-topic="ASP.NET Core Web API" data-prefix="api"></div>
-                    </div>
-
-                    <div class="tab-pane fade" id="sql">
-                        <div class="vstack gap-3 topic-container" data-render-topic="EF Core + SQL Server" data-prefix="sql"></div>
-                    </div>
-
-                    <div class="tab-pane fade" id="angular">
-                        <div class="vstack gap-3 topic-container" data-render-topic="Angular" data-prefix="angular"></div>
-                    </div>
-                </div>
-
-                <div id="noResult" class="no-result mt-3">
-                    <i class="bi bi-search fs-1 text-secondary"></i>
-                    <h5 class="fw-bold mt-3">No question found</h5>
-                    <p class="text-secondary mb-0">Try another keyword like async, API, SQL, index, JWT, Angular, DI.</p>
-                </div>
-            </section>
+        <div class="col-lg-5 text-lg-end">
+          <button type="button" class="btn btn-main me-2" onclick="expandVisible()"><i class="bi bi-arrows-expand me-1"></i> Expand Visible</button>
+          <button type="button" class="btn btn-soft" onclick="collapseAll()"><i class="bi bi-arrows-collapse me-1"></i> Collapse All</button>
         </div>
-    </main>
+      </div>
+      <div class="mt-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <small class="fw-bold text-secondary-emphasis">Reading progress</small>
+          <small id="progressText" class="fw-bold text-secondary-emphasis">0 / 100 opened</small>
+        </div>
+        <div class="progress-shell"><div id="progressFill" class="progress-bar2"></div></div>
+      </div>
+    </section>
 
-    <footer class="footer-note">
-        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <section class="tabs-sticky">
+      <div class="topic-tabs" id="topicTabs"></div>
+    </section>
+
+    <div class="row g-4">
+      <aside class="col-lg-3 desktop-only">
+        <div class="side-card">
+          <h5 class="fw-black fw-bold mb-3">Topic Index</h5>
+          <div id="sideIndex"></div>
+        </div>
+      </aside>
+
+      <section class="col-lg-9">
+        <div class="intro-card">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
-                <strong class="text-white">.NET Interview Notebook</strong>
-                <div>Designed for personal reading, revision, and concept clarity.</div>
+              <h2 class="fw-black fw-bold mb-2">100 Questions Master Notebook</h2>
+              <p class="text-secondary mb-0">Tap a question to understand why it is asked, visualize the concept, connect it to real work, and speak a clean final answer.</p>
             </div>
-            <div class="text-white">
-                <i class="bi bi-code-slash me-1"></i> C# · .NET Core · API · SQL Server · Angular
+            <div>
+              <span class="chip"><i class="bi bi-diagram-3"></i> Practical Visuals</span>
+              <span class="chip"><i class="bi bi-phone"></i> Mobile Ready</span>
+              <span class="chip"><i class="bi bi-mic"></i> Interview Answer</span>
             </div>
+          </div>
         </div>
-    </footer>
 
-    <script>
-        const questions = [
-            {n:1,topic:"C# Core",q:"What is the difference between class and object?",why:"To check whether your object-oriented programming foundation is clear.",visual:"Class = Blueprint / Design\\nObject = Real item created from that blueprint\\n\\nClass: Car\\nObjects: car1, car2, car3",example:"In insurance software, Policy can be a class. MotorPolicy123 and HealthPolicy456 are objects with real values.",answer:"A class is a blueprint that defines properties and behavior. An object is an actual instance created from that class."},
-            {n:2,topic:"C# Core",q:"What is encapsulation?",why:"To check whether you know how to protect data and business rules.",visual:"Outside World\\n     ↓\\nPublic Methods\\n     ↓\\nPrivate Data",example:"A bank balance should not be changed directly. Deposit and Withdraw methods should validate the amount first.",answer:"Encapsulation means hiding internal data and exposing controlled methods to access or modify it. It protects business rules and prevents invalid changes."},
-            {n:3,topic:"C# Core",q:"What is abstraction?",why:"To check whether you can hide complexity and design simple contracts.",visual:"User sees: Pay()\\n\\nHidden details:\\nUPI / Card / Wallet / Net Banking",example:"A payment service may expose ProcessPayment(), but internally it may call Razorpay, Stripe, or another gateway.",answer:"Abstraction means exposing only essential functionality and hiding internal complexity. It reduces dependency on implementation details."},
-            {n:4,topic:"C# Core",q:"What is inheritance?",why:"To check whether you understand code reuse and parent-child relationships.",visual:"Base Class: Employee\\n        ↓\\nManager, Developer, Accountant",example:"Common employee fields like Name, Email, and Salary can be placed in a base Employee class.",answer:"Inheritance allows one class to reuse and extend another class. It is useful when classes share common behavior, but overuse can create tight coupling."},
-            {n:5,topic:"C# Core",q:"What is polymorphism?",why:"To check whether you understand flexible behavior through common contracts.",visual:"Shape.Draw()\\n   ↓\\nCircle.Draw()\\nRectangle.Draw()\\nTriangle.Draw()",example:"Different payment methods can implement the same Pay() method differently.",answer:"Polymorphism means one interface or method can have multiple implementations. It allows flexible and extensible code."},
-            {n:6,topic:"C# Core",q:"Interface vs abstract class?",why:"To check whether you can select the right design approach.",visual:"Interface = Contract\\nAbstract Class = Partial base implementation",example:"IPaymentGateway can be implemented by RazorpayGateway and StripeGateway. An abstract class can share common gateway logging logic.",answer:"An interface defines what a class must do. An abstract class can define common behavior and abstract members. Use interface for contracts and abstract class for shared base logic."},
-            {n:7,topic:"C# Core",q:"What is dependency injection?",why:"To check your understanding of loosely coupled .NET Core architecture.",visual:"Controller\\n   ↓ needs\\nService\\n   ↓ needs\\nRepository\\n\\nDI Container creates and injects dependencies",example:"Instead of creating new EmailService() inside a controller, inject IEmailService through constructor.",answer:"Dependency Injection means providing required dependencies from outside instead of creating them inside the class. It improves testability, loose coupling, and maintainability."},
-            {n:8,topic:"C# Core",q:"What is the difference between value type and reference type?",why:"To check your understanding of memory and object behavior.",visual:"Value Type:\\nVariable → Actual value\\n\\nReference Type:\\nVariable → Address → Object in heap",example:"int, decimal, bool are value types. class, string, and arrays are reference types.",answer:"Value types store actual values. Reference types store references to objects. This affects copying, nullability, and memory behavior."},
-            {n:9,topic:"C# Core",q:"What is boxing and unboxing?",why:"To check performance awareness and type conversion understanding.",visual:"int value = 10\\nBoxing: int → object\\nUnboxing: object → int",example:"object obj = 10 boxes the integer. int x = (int)obj unboxes it.",answer:"Boxing converts a value type to object. Unboxing converts it back. It has performance cost, so generic collections are preferred."},
-            {n:10,topic:"C# Core",q:"What is the difference between string and StringBuilder?",why:"To check performance understanding in repeated text operations.",visual:"string:\\nchange → new object\\n\\nStringBuilder:\\nchange → same buffer mostly reused",example:"Use StringBuilder when generating large reports, logs, or dynamic text with many changes.",answer:"String is immutable, so every modification creates a new string. StringBuilder is mutable and better for repeated modifications."},
-            {n:11,topic:"Advanced C#",q:"What is a delegate?",why:"To check whether you understand callbacks, events, and method references.",visual:"Delegate = variable that stores method reference\\n\\nMethod A → delegate → Method B",example:"Button click events internally use delegate-style behavior.",answer:"A delegate is a type-safe reference to a method. It allows passing methods as parameters and is used in events, callbacks, and LINQ."},
-            {n:12,topic:"Advanced C#",q:"What is a lambda expression?",why:"Because LINQ, callbacks, and modern C# use lambda expressions heavily.",visual:"x => x > 10\\nInput → condition/action → result",example:"users.Where(x => x.Age >= 18) filters adult users.",answer:"A lambda expression is a short way to write an anonymous function. It is commonly used with LINQ and delegates."},
-            {n:13,topic:"Advanced C#",q:"IEnumerable vs IQueryable?",why:"Very important for EF Core and SQL performance.",visual:"IEnumerable:\\nData comes to memory → filtering happens\\n\\nIQueryable:\\nQuery builds SQL → filtering happens in database",example:"For database filtering, keep query as IQueryable before calling ToList().",answer:"IEnumerable is used for in-memory iteration. IQueryable builds an expression tree and allows EF Core to translate queries into SQL."},
-            {n:14,topic:"Advanced C#",q:"What is LINQ?",why:"LINQ is used everywhere in C#, EF Core, and collection processing.",visual:"Collection/Data\\n   ↓\\nWhere\\n   ↓\\nSelect\\n   ↓\\nOrderBy\\n   ↓\\nResult",example:"users.Where(x => x.IsActive).OrderBy(x => x.Name).ToList()",answer:"LINQ means Language Integrated Query. It allows querying collections, XML, databases, and other data sources using C# syntax."},
-            {n:15,topic:"Advanced C#",q:"What is async/await?",why:"To check scalable API and database programming knowledge.",visual:"Request starts DB call\\n        ↓\\nThread is released\\n        ↓\\nDB responds\\n        ↓\\nExecution continues",example:"Use async for database calls, file I/O, and HTTP API calls.",answer:"Async/await allows non-blocking asynchronous programming. It improves scalability by freeing the thread while waiting for I/O operations."},
-            {n:16,topic:"Advanced C#",q:"Task vs Thread?",why:"To check whether you understand concurrency correctly.",visual:"Thread = low-level execution path\\nTask = higher-level unit of work managed by Task Scheduler",example:"Use Task for async API/database operations. Avoid manually creating threads unless necessary.",answer:"Thread is a low-level OS execution unit. Task is a higher-level abstraction used for asynchronous and parallel work."},
-            {n:17,topic:"Advanced C#",q:"What is exception handling?",why:"To check production-safe coding and error recovery understanding.",visual:"Try risky code\\n   ↓\\nCatch error\\n   ↓\\nLog\\n   ↓\\nReturn proper response",example:"In API, log exception and return a safe error response instead of exposing internal details.",answer:"Exception handling is used to handle runtime errors gracefully. In production, exceptions should be logged and meaningful responses should be returned."},
-            {n:18,topic:"Advanced C#",q:"What is the difference between throw and throw ex?",why:"To check debugging and stack trace knowledge.",visual:"throw      → preserves stack trace\\nthrow ex   → resets stack trace",example:"Inside a catch block, use throw; when rethrowing the same exception.",answer:"throw preserves the original stack trace. throw ex resets it and makes debugging harder."},
-            {n:19,topic:"Advanced C#",q:"What are generics?",why:"Generics are used in collections, repositories, services, and common architecture patterns.",visual:"List<T>\\nRepository<T>\\nResult<T>",example:"IRepository<Customer>, IRepository<Product>, and IRepository<Order> reuse the same pattern with different types.",answer:"Generics allow writing type-safe reusable code without repeating the same logic for different types."},
-            {n:20,topic:"Advanced C#",q:"What is SOLID?",why:"To check design maturity and maintainability thinking.",visual:"S - Single Responsibility\\nO - Open/Closed\\nL - Liskov Substitution\\nI - Interface Segregation\\nD - Dependency Inversion",example:"Do not put email, PDF, database, and payment logic inside one controller.",answer:"SOLID principles help us write maintainable, testable, and loosely coupled code by keeping responsibilities clear and dependencies abstract."},
-            {n:21,topic:".NET Core",q:"What is .NET Core / modern .NET?",why:"To check your platform-level understanding.",visual:"C# Code\\n   ↓\\n.NET Runtime\\n   ↓\\nWindows / Linux / macOS / Cloud",example:"You can build APIs, web apps, desktop apps, services, and cloud applications using modern .NET.",answer:".NET Core, now unified as modern .NET, is a cross-platform, open-source development platform for building many types of applications."},
-            {n:22,topic:".NET Core",q:"What is middleware in ASP.NET Core?",why:"Middleware is the heart of ASP.NET Core request processing.",visual:"Request\\n ↓\\nException Middleware\\n ↓\\nAuthentication\\n ↓\\nAuthorization\\n ↓\\nRouting\\n ↓\\nController\\n ↓\\nResponse",example:"Authentication middleware identifies the user before authorization checks permissions.",answer:"Middleware is software that runs in the request-response pipeline. Each middleware can process the request, pass it next, or short-circuit the pipeline."},
-            {n:23,topic:".NET Core",q:"Why does middleware order matter?",why:"Wrong middleware order causes real production bugs.",visual:"Correct:\\nUseRouting\\nUseAuthentication\\nUseAuthorization\\nMapControllers",example:"Authorization should run after authentication because it needs user identity.",answer:"Middleware order matters because each middleware depends on previous middleware output. Authorization requires authentication to set the user identity first."},
-            {n:24,topic:".NET Core",q:"What are service lifetimes in .NET Core DI?",why:"To check memory, scope, and bug-prevention knowledge.",visual:"Singleton → one object for app lifetime\\nScoped    → one object per request\\nTransient → new object every time",example:"DbContext is normally registered as scoped because it should live for one request.",answer:"Singleton is created once for the application. Scoped is created once per request. Transient is created every time it is requested."},
-            {n:25,topic:".NET Core",q:"What is configuration in .NET Core?",why:"To check environment-based development knowledge.",visual:"appsettings.json\\nappsettings.Development.json\\nEnvironment Variables\\nAzure App Settings\\n        ↓\\nIConfiguration / Options Pattern",example:"Connection strings can be different for development, staging, and production.",answer:"Configuration allows app settings to come from JSON files, environment variables, command-line arguments, or cloud settings. Options pattern is used for strongly typed settings."},
-            {n:26,topic:".NET Core",q:"What is logging in .NET Core?",why:"To check production debugging and monitoring understanding.",visual:"Application event\\n      ↓\\nILogger\\n      ↓\\nConsole / File / Seq / App Insights",example:"Log failed payment, failed login, exception, or slow query for later investigation.",answer:"Logging captures application behavior and errors. In production, it helps diagnose failures, performance issues, and user flows."},
-            {n:27,topic:".NET Core",q:"What is a hosted service/background service?",why:"To check background processing understanding.",visual:"Web App\\n  ↓\\nBackgroundService\\n  ↓\\nRuns scheduled/background tasks",example:"Send pending emails, process queues, generate reports, or sync data.",answer:"A hosted service runs background tasks inside a .NET application. It is useful for scheduled jobs, queue processing, and long-running background work."},
-            {n:28,topic:".NET Core",q:"What is the difference between MVC and Web API?",why:"To check web architecture clarity.",visual:"MVC:\\nRequest → Controller → View → HTML\\n\\nWeb API:\\nRequest → Controller/Endpoint → JSON Response",example:"Angular or mobile app usually consumes Web API. Razor pages or MVC views render HTML.",answer:"MVC usually returns views for browser UI. Web API returns data, mostly JSON, for Angular, mobile apps, or other services."},
-            {n:29,topic:"ASP.NET Core Web API",q:"What is REST API?",why:"API development foundation question.",visual:"GET    /products      → read\\nPOST   /products      → create\\nPUT    /products/1    → full update\\nPATCH  /products/1    → partial update\\nDELETE /products/1    → delete",example:"Product, Order, Customer, and Invoice can be exposed as resources using REST endpoints.",answer:"REST is an architectural style where resources are exposed through URLs and standard HTTP methods are used to perform operations."},
-            {n:30,topic:"ASP.NET Core Web API",q:"What are common HTTP status codes?",why:"To check API professionalism.",visual:"200 OK\\n201 Created\\n400 Bad Request\\n401 Unauthorized\\n403 Forbidden\\n404 Not Found\\n500 Server Error",example:"Return 201 when a new product is created, 404 when product is not found, and 400 for validation errors.",answer:"Status codes communicate API result clearly. 200 means success, 201 created, 400 validation error, 401 not logged in, 403 no permission, and 404 not found."},
-            {n:31,topic:"ASP.NET Core Web API",q:"What is model binding?",why:"To check request-handling knowledge.",visual:"HTTP Request\\n   ↓\\nRoute / Query / Body / Header\\n   ↓\\nC# Model Object",example:"public IActionResult CreateProduct(ProductDto dto) receives JSON body as a C# object.",answer:"Model binding maps incoming HTTP request data to action method parameters or model objects automatically."},
-            {n:32,topic:"ASP.NET Core Web API",q:"What is model validation?",why:"To check API safety and data quality.",visual:"Request DTO\\n   ↓\\nValidation Attributes\\n   ↓\\nModelState\\n   ↓\\nAccept or reject",example:"Required, MaxLength, Range, and custom validation stop invalid data before business logic.",answer:"Model validation ensures incoming data follows required rules before business logic runs. It prevents invalid data from entering the system."},
-            {n:33,topic:"ASP.NET Core Web API",q:"What is JWT authentication?",why:"JWT is common in Angular + API projects.",visual:"Login\\n ↓\\nServer validates user\\n ↓\\nJWT token returned\\n ↓\\nClient sends token in Authorization header\\n ↓\\nAPI validates token",example:"Angular stores token and sends it with API calls using Authorization: Bearer token.",answer:"JWT is token-based authentication. After login, server issues a signed token. Client sends it with future requests, and API validates it to identify the user."},
-            {n:34,topic:"ASP.NET Core Web API",q:"Authentication vs Authorization?",why:"Very common security question.",visual:"Authentication = Who are you?\\nAuthorization  = What are you allowed to do?",example:"Login proves identity. Role or policy decides whether the user can access admin actions.",answer:"Authentication verifies identity. Authorization checks permissions after identity is known."},
-            {n:35,topic:"ASP.NET Core Web API",q:"What is CORS?",why:"Angular + API developers face this frequently.",visual:"Angular App: http://localhost:4200\\nAPI:         https://api.example.com\\n\\nBrowser asks:\\nIs this origin allowed?",example:"API must allow Angular frontend origin before browser permits cross-origin calls.",answer:"CORS is a browser security mechanism that controls whether a web app from one origin can call APIs from another origin."},
-            {n:36,topic:"ASP.NET Core Web API",q:"What is API versioning?",why:"To check long-term API design thinking.",visual:"/api/v1/products\\n/api/v2/products",example:"Mobile app may still use v1 while Angular web app starts using v2.",answer:"API versioning allows us to introduce changes without breaking existing clients."},
-            {n:37,topic:"ASP.NET Core Web API",q:"What is rate limiting?",why:"To check security and scalability awareness.",visual:"User/API Client\\n   ↓ many requests\\nRate Limiter\\n   ↓ allowed/blocked\\nAPI",example:"Limit login attempts or public API calls to protect the server.",answer:"Rate limiting controls how many requests a client can make in a given time. It protects APIs from abuse and overload."},
-            {n:38,topic:"EF Core + SQL Server",q:"What is DbContext?",why:"EF Core foundation question.",visual:"DbContext\\n   ↓\\nDbSet<Customer>\\nDbSet<Order>\\nDbSet<Product>\\n   ↓\\nDatabase Tables",example:"ApplicationDbContext manages entity queries, tracking, and SaveChanges.",answer:"DbContext represents a session with the database. It tracks entities, builds queries, manages changes, and saves data using SaveChanges."},
-            {n:39,topic:"EF Core + SQL Server",q:"What is EF Core change tracking?",why:"To check update behavior and performance knowledge.",visual:"Entity loaded\\n   ↓\\nEF tracks original values\\n   ↓\\nProperty changed\\n   ↓\\nSaveChanges generates UPDATE",example:"Load a customer, change MobileNo, call SaveChanges, and EF generates update SQL.",answer:"Change tracking means EF Core keeps track of entity changes so it can generate insert, update, or delete SQL during SaveChanges."},
-            {n:40,topic:"EF Core + SQL Server",q:"What is AsNoTracking?",why:"Performance question for EF Core.",visual:"Tracking query:\\nRead + track changes\\n\\nNo tracking query:\\nRead only, no tracking",example:"Use AsNoTracking for reports and read-only listing pages.",answer:"AsNoTracking tells EF Core not to track returned entities. It improves performance for read-only queries."},
-            {n:41,topic:"EF Core + SQL Server",q:"What are migrations?",why:"To check database lifecycle knowledge.",visual:"Model change\\n   ↓\\nAdd Migration\\n   ↓\\nUpdate Database\\n   ↓\\nSchema updated",example:"Add a new property to Product model, create migration, and update database.",answer:"Migrations are a way to version database schema changes from code and keep the database synchronized with the EF Core model."},
-            {n:42,topic:"EF Core + SQL Server",q:"What is an index in SQL Server?",why:"Performance foundation question.",visual:"Without Index:\\nScan full table\\n\\nWith Index:\\nFind using sorted structure",example:"Index PolicyNumber if users frequently search policies by policy number.",answer:"An index improves data retrieval speed by helping SQL Server locate rows faster. Too many indexes can slow insert, update, and delete operations."},
-            {n:43,topic:"EF Core + SQL Server",q:"Clustered vs non-clustered index?",why:"Common SQL interview question.",visual:"Clustered Index:\\nTable data physically ordered by key\\n\\nNon-clustered Index:\\nSeparate structure pointing to data rows",example:"A table usually has one clustered index, often on primary key, and multiple non-clustered indexes for search columns.",answer:"A clustered index defines the physical order of table data. A non-clustered index is a separate lookup structure that points to the actual data."},
-            {n:44,topic:"EF Core + SQL Server",q:"What is a transaction?",why:"To check data consistency understanding.",visual:"Begin Transaction\\n   ↓\\nDebit account\\n   ↓\\nCredit account\\n   ↓\\nCommit or Rollback",example:"Payment posting and ledger entry must succeed together or fail together.",answer:"A transaction ensures multiple database operations complete as one unit. If any operation fails, all changes are rolled back."},
-            {n:45,topic:"EF Core + SQL Server",q:"What are ACID properties?",why:"Database reliability question.",visual:"A - Atomicity\\nC - Consistency\\nI - Isolation\\nD - Durability",example:"In accounting ledger, debit and credit must be saved consistently and permanently after commit.",answer:"ACID ensures reliable transactions. Atomicity means all or nothing. Consistency keeps data valid. Isolation prevents interference. Durability saves committed data permanently."},
-            {n:46,topic:"EF Core + SQL Server",q:"What is normalization?",why:"Database design foundation question.",visual:"Bad:\\nOrder table has repeated customer details\\n\\nBetter:\\nCustomer table\\nOrder table\\nOrderDetail table",example:"Store customer once and link multiple orders to the customer using CustomerId.",answer:"Normalization organizes data to reduce duplication and improve consistency by separating related data into proper tables."},
-            {n:47,topic:"EF Core + SQL Server",q:"Stored procedure vs inline SQL?",why:"To check SQL usage judgement.",visual:"Application\\n   ↓\\nStored Procedure\\n   ↓\\nSQL Logic in database",example:"Use stored procedure for complex reporting or controlled database operations. Use LINQ/simple SQL for normal CRUD.",answer:"Stored procedures are predefined SQL routines stored in the database. They are useful for complex database operations, reporting, and controlled access."},
-            {n:48,topic:"Angular",q:"What is an Angular component?",why:"Angular foundation question.",visual:"Component =\\nTypeScript class\\n+ HTML template\\n+ CSS style",example:"ProductListComponent displays product data, handles screen events, and binds to template.",answer:"An Angular component is a UI building block. It contains data and behavior in TypeScript, view structure in HTML, and styling in CSS."},
-            {n:49,topic:"Angular",q:"What is Angular service and dependency injection?",why:"To check separation of concerns in Angular.",visual:"Component\\n   ↓ injects\\nService\\n   ↓ calls\\nAPI",example:"ProductComponent should not directly write HTTP logic. ProductService should handle API calls.",answer:"An Angular service contains reusable logic such as API calls or shared state. Dependency injection provides that service to components."},
-            {n:50,topic:"Angular",q:"Observable vs Promise in Angular?",why:"Angular HttpClient uses Observables, and RxJS is central in Angular.",visual:"Promise:\\none future value\\n\\nObservable:\\nstream of values over time",example:"HTTP call, search typing, and live notifications can be handled as Observables.",answer:"A Promise handles one future value. An Observable can handle multiple values over time and supports operators, cancellation, and reactive programming."}
-        ];
+        <div id="questionList" class="question-list"></div>
 
-        const topicIcons = {
-            "C# Core": "bi-braces",
-            "Advanced C#": "bi-cpu",
-            ".NET Core": "bi-boxes",
-            "ASP.NET Core Web API": "bi-hdd-network",
-            "EF Core + SQL Server": "bi-database",
-            "Angular": "bi-triangle"
-        };
+        <div id="noResult" class="no-result mt-3">
+          <i class="bi bi-search fs-1 text-secondary"></i>
+          <h5 class="fw-bold mt-3">No question found</h5>
+          <p class="text-secondary mb-0">Try a keyword like GC, middleware, JWT, cache, execution plan, RxJS, or Angular.</p>
+        </div>
+      </section>
+    </div>
+  </main>
 
-        const opened = new Set();
+  <footer>
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div>
+        <strong class="text-white">.NET Full-Stack Interview Notebook</strong>
+        <div>Designed for personal reading, revision, and practical concept clarity.</div>
+      </div>
+      <div class="text-white"><i class="bi bi-code-slash me-1"></i> C# · .NET Core · API · SQL Server · Angular</div>
+    </div>
+  </footer>
 
-        function escapeHtml(value) {
-            return String(value)
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
-        }
+  <script>
+    const questions = [{"n": 1, "topic": "C# Core", "q": "What is the difference between class and object?", "why": "Checks whether your OOP foundation is clear.", "visual": ["Class is the blueprint", "Object is the real instance", "Object stores real values"], "example": "Customer is a class. Rai Singh as one customer record is an object.", "answer": "A class defines properties and behavior. An object is an actual instance created from that class with real data."}, {"n": 2, "topic": "C# Core", "q": "What is encapsulation?", "why": "Checks whether you can protect data and business rules.", "visual": ["Private data is hidden", "Public methods expose controlled access", "Validation happens before change"], "example": "Bank balance should not be directly changed. Deposit() validates amount before changing balance.", "answer": "Encapsulation means hiding internal data and exposing controlled methods to access or modify it safely."}, {"n": 3, "topic": "C# Core", "q": "What is abstraction?", "why": "Checks whether you can hide complexity behind simple contracts.", "visual": ["User calls simple method", "Complex internal logic stays hidden", "Implementation can change later"], "example": "PaymentService.ProcessPayment() hides Razorpay/Card/UPI internal details.", "answer": "Abstraction exposes essential functionality and hides unnecessary implementation complexity."}, {"n": 4, "topic": "C# Core", "q": "What is inheritance?", "why": "Checks relationship design and code reuse understanding.", "visual": ["Base class has common members", "Child class reuses them", "Child can add special behavior"], "example": "Employee is base class. Manager and Developer inherit common employee properties.", "answer": "Inheritance allows one class to reuse and extend another class when there is a true parent-child relationship."}, {"n": 5, "topic": "C# Core", "q": "What is polymorphism?", "why": "Checks whether you understand flexible behavior using common methods.", "visual": ["Common method name", "Different class implementations", "Runtime selects correct behavior"], "example": "IPayment.Pay() can be implemented by CashPayment, UpiPayment, and CardPayment.", "answer": "Polymorphism allows the same contract or method call to behave differently depending on the actual object."}, {"n": 6, "topic": "C# Core", "q": "Interface vs abstract class?", "why": "Checks design judgement.", "visual": ["Interface = contract only", "Abstract class = contract + shared base logic", "Class can implement multiple interfaces"], "example": "IPaymentGateway defines contract. BasePaymentGateway can share logging and validation.", "answer": "Use interface for a contract. Use abstract class when common implementation must be shared with derived classes."}, {"n": 7, "topic": "C# Core", "q": "What is dependency injection?", "why": "Checks modern .NET architecture understanding.", "visual": ["Class asks for dependency", "DI container creates object", "Constructor receives ready dependency"], "example": "OrderService receives IEmailService instead of creating EmailService manually.", "answer": "Dependency Injection provides required dependencies from outside the class, improving testability and loose coupling."}, {"n": 8, "topic": "C# Core", "q": "Value type vs reference type?", "why": "Checks memory and object behavior understanding.", "visual": ["Value type stores actual value", "Reference type stores address", "Object data lives separately"], "example": "int is value type. Customer class object is reference type.", "answer": "Value types store actual values. Reference types store references to objects, affecting copying and null behavior."}, {"n": 9, "topic": "C# Core", "q": "What is boxing and unboxing?", "why": "Checks performance awareness.", "visual": ["Value type", "Converted to object = boxing", "Converted back = unboxing"], "example": "object obj = 10 boxes int. int x = (int)obj unboxes it.", "answer": "Boxing converts a value type to object. Unboxing converts it back. It has performance cost, so generics are preferred."}, {"n": 10, "topic": "C# Core", "q": "string vs StringBuilder?", "why": "Checks repeated text operation performance.", "visual": ["string change creates new object", "StringBuilder modifies buffer", "Better for loops/report text"], "example": "Use StringBuilder for dynamic report or large email body generation.", "answer": "string is immutable. StringBuilder is mutable and better for repeated modifications."}, {"n": 11, "topic": "Advanced C#", "q": "What is a delegate?", "why": "Checks callback and event understanding.", "visual": ["Delegate stores method reference", "Caller invokes delegate", "Target method runs"], "example": "Button click event uses delegate-like behavior.", "answer": "A delegate is a type-safe reference to a method. It is used for callbacks, events, and functional patterns."}, {"n": 12, "topic": "Advanced C#", "q": "What is a lambda expression?", "why": "Checks modern C# and LINQ fluency.", "visual": ["Input variable", "Arrow expression", "Condition/action result"], "example": "users.Where(x => x.IsActive) uses a lambda.", "answer": "A lambda expression is a short anonymous function, commonly used with LINQ, delegates, and event handlers."}, {"n": 13, "topic": "Advanced C#", "q": "IEnumerable vs IQueryable?", "why": "Important for EF Core performance.", "visual": ["IEnumerable works in memory", "IQueryable builds expression", "Database translates IQueryable to SQL"], "example": "Use IQueryable before ToList() for database filtering.", "answer": "IEnumerable is for in-memory iteration. IQueryable can be translated into SQL by providers like EF Core."}, {"n": 14, "topic": "Advanced C#", "q": "What is LINQ?", "why": "LINQ is used heavily in C# and EF Core.", "visual": ["Data source", "Filter", "Project/select", "Final result"], "example": "orders.Where(x => x.Status == 'Paid').Select(x => x.Total)", "answer": "LINQ is Language Integrated Query. It lets us query collections and databases using C# syntax."}, {"n": 15, "topic": "Advanced C#", "q": "What is async/await?", "why": "Checks scalable API/database programming.", "visual": ["Start I/O operation", "Release thread while waiting", "Resume after result"], "example": "await db.Customers.ToListAsync() does not block the request thread.", "answer": "async/await enables non-blocking asynchronous programming, especially useful for I/O operations."}, {"n": 16, "topic": "Advanced C#", "q": "Task vs Thread?", "why": "Checks concurrency understanding.", "visual": ["Thread is low-level OS execution", "Task is high-level work abstraction", "Task scheduler manages execution"], "example": "Use Task for async API calls. Avoid manual Thread creation in web apps.", "answer": "Thread is a low-level execution unit. Task is a higher-level abstraction for asynchronous or parallel work."}, {"n": 17, "topic": "Advanced C#", "q": "What is exception handling?", "why": "Checks production-safe coding.", "visual": ["Try risky code", "Catch failure", "Log and return safe response"], "example": "API catches exception, logs it, and returns 500 without exposing stack trace.", "answer": "Exception handling manages runtime errors gracefully through try, catch, finally, logging, and safe responses."}, {"n": 18, "topic": "Advanced C#", "q": "throw vs throw ex?", "why": "Checks debugging knowledge.", "visual": ["throw preserves original stack trace", "throw ex resets stack trace", "Use throw when rethrowing"], "example": "Inside catch, write throw; not throw ex;.", "answer": "throw preserves the original stack trace. throw ex resets it and makes debugging harder."}, {"n": 19, "topic": "Advanced C#", "q": "What are generics?", "why": "Checks reusable and type-safe design.", "visual": ["Write once with T", "Use with Customer/Product/Order", "Compile-time type safety"], "example": "IRepository<T> can work for Customer, Product, and Order.", "answer": "Generics allow reusable, type-safe code without repeating the same logic for different types."}, {"n": 20, "topic": "Advanced C#", "q": "What is SOLID?", "why": "Checks maintainable design maturity.", "visual": ["Single responsibility", "Open/closed", "Substitution", "Small interfaces", "Depend on abstractions"], "example": "Do not place email, PDF, DB, and payment logic in one controller.", "answer": "SOLID is a set of principles for writing maintainable, testable, and loosely coupled code."}, {"n": 21, "topic": ".NET Core", "q": "What is modern .NET?", "why": "Checks platform understanding.", "visual": ["C# code", ".NET runtime", "Runs on Windows/Linux/macOS/cloud"], "example": ".NET can build APIs, web apps, background services, desktop apps, and cloud systems.", "answer": "Modern .NET is a cross-platform, open-source development platform for building many types of applications."}, {"n": 22, "topic": ".NET Core", "q": "What is middleware in ASP.NET Core?", "why": "Middleware is central to request processing.", "visual": ["Request enters", "Middleware runs one by one", "Controller/endpoint returns response"], "example": "Authentication middleware sets user identity before authorization.", "answer": "Middleware is software in the HTTP pipeline that can process, pass, or short-circuit requests."}, {"n": 23, "topic": ".NET Core", "q": "Why does middleware order matter?", "why": "Wrong order causes real bugs.", "visual": ["Routing identifies endpoint", "Authentication sets user", "Authorization checks permission"], "example": "UseAuthentication must come before UseAuthorization.", "answer": "Middleware order matters because later middleware may depend on work done by earlier middleware."}, {"n": 24, "topic": ".NET Core", "q": "What are DI service lifetimes?", "why": "Checks memory and lifetime safety.", "visual": ["Singleton = one app object", "Scoped = one per request", "Transient = new every time"], "example": "DbContext is normally scoped, not singleton.", "answer": "Singleton lives for app lifetime, scoped for one request, transient is created each time."}, {"n": 25, "topic": ".NET Core", "q": "What is configuration in .NET Core?", "why": "Checks environment-based deployment understanding.", "visual": ["JSON settings", "Environment variables", "Options classes", "Application reads config"], "example": "Different connection strings for Development and Production.", "answer": "Configuration provides settings from files, environment variables, command line, or cloud config."}, {"n": 26, "topic": ".NET Core", "q": "What is logging in .NET Core?", "why": "Checks production debugging skill.", "visual": ["Application event", "ILogger captures message", "Sink stores log"], "example": "Log failed login, payment failure, exception, and slow query.", "answer": "Logging records application behavior and errors for troubleshooting, monitoring, and auditing."}, {"n": 27, "topic": ".NET Core", "q": "What is a hosted service?", "why": "Checks background processing knowledge.", "visual": ["App starts", "BackgroundService runs", "Processes scheduled/queue work"], "example": "Email queue, report generation, cleanup jobs.", "answer": "A hosted service runs background tasks inside a .NET app, commonly using BackgroundService."}, {"n": 28, "topic": ".NET Core", "q": "MVC vs Web API?", "why": "Checks web architecture clarity.", "visual": ["MVC returns HTML view", "Web API returns JSON", "Angular/mobile consumes API"], "example": "Admin dashboard may use MVC. Mobile app consumes Web API.", "answer": "MVC is used to render views. Web API exposes data and operations as HTTP endpoints, usually JSON."}, {"n": 29, "topic": "ASP.NET Core Web API", "q": "What is REST API?", "why": "Basic API design question.", "visual": ["Resource URL", "HTTP method", "Status code response"], "example": "GET /products reads, POST /products creates.", "answer": "REST exposes resources through URLs and uses standard HTTP methods for operations."}, {"n": 30, "topic": "ASP.NET Core Web API", "q": "What are common HTTP status codes?", "why": "Checks API professionalism.", "visual": ["2xx success", "4xx client error", "5xx server error"], "example": "201 for created, 400 validation error, 404 not found.", "answer": "HTTP status codes communicate API result: 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Server Error."}, {"n": 31, "topic": "ASP.NET Core Web API", "q": "What is model binding?", "why": "Checks request handling.", "visual": ["Request body/query/route", "Model binder", "C# parameter object"], "example": "ProductDto is automatically filled from JSON body.", "answer": "Model binding maps HTTP request data to action parameters or model objects."}, {"n": 32, "topic": "ASP.NET Core Web API", "q": "What is model validation?", "why": "Checks data quality mindset.", "visual": ["DTO received", "Validation rules checked", "Reject invalid request"], "example": "[Required] and [MaxLength] validate incoming data.", "answer": "Model validation checks incoming data against rules before business logic executes."}, {"n": 33, "topic": "ASP.NET Core Web API", "q": "What is JWT authentication?", "why": "Common Angular + API security question.", "visual": ["Login", "Server issues token", "Client sends Bearer token", "API validates token"], "example": "Angular sends JWT in Authorization header.", "answer": "JWT authentication uses signed tokens to identify users across stateless API requests."}, {"n": 34, "topic": "ASP.NET Core Web API", "q": "Authentication vs Authorization?", "why": "Very common security concept.", "visual": ["Authentication = identity", "Authorization = permission", "Both are required"], "example": "Login confirms user. Admin role allows delete action.", "answer": "Authentication verifies who the user is. Authorization checks what the user is allowed to do."}, {"n": 35, "topic": "ASP.NET Core Web API", "q": "What is CORS?", "why": "Angular API projects face it often.", "visual": ["Browser app origin", "API origin", "Server allows or blocks"], "example": "localhost:4200 calling api.example.com requires CORS policy.", "answer": "CORS controls whether browser-based apps from one origin can call APIs from another origin."}, {"n": 36, "topic": "ASP.NET Core Web API", "q": "What is API versioning?", "why": "Checks long-term API design.", "visual": ["v1 supports old clients", "v2 adds changed behavior", "Both can run together"], "example": "/api/v1/products and /api/v2/products.", "answer": "API versioning allows changes without breaking existing clients."}, {"n": 37, "topic": "ASP.NET Core Web API", "q": "What is rate limiting?", "why": "Checks security and scalability awareness.", "visual": ["Many client requests", "Limiter checks quota", "Allow or reject"], "example": "Limit login attempts to stop brute force attacks.", "answer": "Rate limiting controls request volume per client to protect APIs from abuse and overload."}, {"n": 38, "topic": "EF Core + SQL Server", "q": "What is DbContext?", "why": "EF Core foundation.", "visual": ["DbContext", "DbSet entities", "Database tables"], "example": "ApplicationDbContext exposes Customers, Orders, Products DbSets.", "answer": "DbContext represents a database session that queries, tracks, and saves entity changes."}, {"n": 39, "topic": "EF Core + SQL Server", "q": "What is EF Core change tracking?", "why": "Checks update behavior and performance.", "visual": ["Load entity", "Track original values", "Detect changes", "Generate SQL"], "example": "Change customer phone then SaveChanges updates only changed data.", "answer": "Change tracking lets EF Core know which entities are added, modified, or deleted."}, {"n": 40, "topic": "EF Core + SQL Server", "q": "What is AsNoTracking?", "why": "Performance-focused EF question.", "visual": ["Read only query", "No tracking overhead", "Faster list/report"], "example": "Use AsNoTracking for reports and dropdown lists.", "answer": "AsNoTracking disables EF tracking for read-only queries, improving performance."}, {"n": 41, "topic": "EF Core + SQL Server", "q": "What are migrations?", "why": "Checks database lifecycle management.", "visual": ["Model changes", "Migration generated", "Database schema updated"], "example": "Add GSTNumber field to Customer and create migration.", "answer": "Migrations version and apply database schema changes from code."}, {"n": 42, "topic": "EF Core + SQL Server", "q": "What is an index in SQL Server?", "why": "Core performance concept.", "visual": ["Without index = scan many rows", "With index = seek faster", "Writes may slow slightly"], "example": "Index PolicyNumber for frequent policy search.", "answer": "An index helps SQL Server find rows faster but adds write overhead."}, {"n": 43, "topic": "EF Core + SQL Server", "q": "Clustered vs non-clustered index?", "why": "Common SQL interview question.", "visual": ["Clustered orders actual data", "Non-clustered is separate lookup", "Non-clustered points to row"], "example": "Primary key often clustered; search columns get non-clustered indexes.", "answer": "Clustered index defines physical data order. Non-clustered index is a separate structure pointing to data."}, {"n": 44, "topic": "EF Core + SQL Server", "q": "What is a transaction?", "why": "Checks data consistency.", "visual": ["Begin", "Multiple operations", "Commit all or rollback all"], "example": "Payment entry and ledger entry must succeed together.", "answer": "A transaction makes multiple database operations complete as one unit."}, {"n": 45, "topic": "EF Core + SQL Server", "q": "What are ACID properties?", "why": "Checks reliable transaction understanding.", "visual": ["Atomicity", "Consistency", "Isolation", "Durability"], "example": "Accounting debit and credit must stay consistent.", "answer": "ACID ensures reliable transactions: all-or-nothing, valid state, isolated execution, and permanent commit."}, {"n": 46, "topic": "EF Core + SQL Server", "q": "What is normalization?", "why": "Checks database design foundation.", "visual": ["Remove duplicate data", "Create related tables", "Use keys to connect"], "example": "Customer table separate from Order table.", "answer": "Normalization reduces duplication and improves consistency by organizing data into related tables."}, {"n": 47, "topic": "EF Core + SQL Server", "q": "Stored procedure vs inline SQL?", "why": "Checks SQL design judgement.", "visual": ["App calls SP", "DB executes stored logic", "Returns result"], "example": "Use stored procedure for complex reports; LINQ for normal CRUD.", "answer": "Stored procedures are predefined database routines useful for complex operations, reporting, and controlled access."}, {"n": 48, "topic": "Angular", "q": "What is an Angular component?", "why": "Angular foundation.", "visual": ["TypeScript class", "HTML template", "CSS style"], "example": "ProductListComponent displays product records.", "answer": "An Angular component is a UI building block containing behavior, template, and styling."}, {"n": 49, "topic": "Angular", "q": "What is Angular service and dependency injection?", "why": "Checks separation of concerns.", "visual": ["Component injects service", "Service handles logic/API", "Component displays result"], "example": "ProductService handles API calls instead of ProductComponent.", "answer": "A service holds reusable logic, and DI provides that service to components."}, {"n": 50, "topic": "Angular", "q": "Observable vs Promise in Angular?", "why": "RxJS is central in Angular.", "visual": ["Promise returns one future value", "Observable can stream many values", "Observable supports operators/cancel"], "example": "Search typing, HTTP calls, and live data can use Observables.", "answer": "Promise handles one future value. Observable handles streams and supports operators, cancellation, and reactive programming."}, {"n": 51, "topic": "Advanced C# and Memory", "q": "What is garbage collection in .NET?", "why": "Checks memory-management understanding.", "visual": ["Object allocated on managed heap", "No references remain", "GC reclaims memory"], "example": "A temporary DTO created during API request becomes eligible for collection after request ends.", "answer": "Garbage collection automatically reclaims memory for managed objects that are no longer reachable."}, {"n": 52, "topic": "Advanced C# and Memory", "q": "What are GC generations?", "why": "Checks deeper runtime knowledge.", "visual": ["Gen 0 = short-lived objects", "Gen 1 = survived once", "Gen 2 = long-lived objects"], "example": "Short-lived request objects often die in Gen 0. App-level caches may survive to Gen 2.", "answer": "GC uses generations to optimize collection. New objects start in Gen 0; objects that survive may move to Gen 1 and Gen 2."}, {"n": 53, "topic": "Advanced C# and Memory", "q": "Stack vs heap in C#?", "why": "Checks memory model clarity.", "visual": ["Stack stores call frames/local value data", "Heap stores reference objects", "References connect stack to heap"], "example": "int localCount may be on stack; new Customer() object lives on heap.", "answer": "Stack is used for method execution and local data. Heap stores objects managed by the garbage collector."}, {"n": 54, "topic": "Advanced C# and Memory", "q": "What is IDisposable and using statement?", "why": "Checks unmanaged resource cleanup.", "visual": ["Open resource", "Use resource", "Dispose releases resource"], "example": "Database connection, file stream, and memory stream should be disposed.", "answer": "IDisposable provides deterministic cleanup for resources. using ensures Dispose is called even when exceptions occur."}, {"n": 55, "topic": "Advanced C# and Memory", "q": "What is memory leak in .NET if GC exists?", "why": "Checks real production debugging.", "visual": ["Object still referenced", "GC thinks it is needed", "Memory keeps growing"], "example": "Static list or event subscription keeps old objects alive.", "answer": "A memory leak occurs when objects are no longer useful but are still referenced, so GC cannot collect them."}, {"n": 56, "topic": "Advanced C# and Memory", "q": "What is static class/member and memory impact?", "why": "Checks lifetime awareness.", "visual": ["Static member belongs to type", "Lives for application lifetime", "Shared across all users"], "example": "Static cache can be useful, but static user-specific data can create bugs and leaks.", "answer": "Static members are shared and generally live for the application lifetime. They should be used carefully for shared stateless logic or controlled caching."}, {"n": 57, "topic": "Advanced C# and Memory", "q": "What is record in C#?", "why": "Checks modern C# awareness.", "visual": ["Immutable-style data object", "Value-based equality", "Useful for DTO-like models"], "example": "Use record for query result or immutable command data.", "answer": "A record is a reference type or value type designed for immutable data and value-based equality."}, {"n": 58, "topic": "Advanced C# and Memory", "q": "What is Span<T> and Memory<T>?", "why": "Checks high-performance C# knowledge.", "visual": ["Work on existing memory", "Avoid extra allocation", "Slice data safely"], "example": "Parsing large strings or byte arrays without creating many substrings.", "answer": "Span<T> and Memory<T> allow efficient access to contiguous memory with fewer allocations. Span<T> is stack-only; Memory<T> can be stored and used asynchronously."}, {"n": 59, "topic": "Advanced C# and Memory", "q": "What is ref, out, and in parameter?", "why": "Checks parameter-passing knowledge.", "visual": ["ref = pass both ways", "out = method must assign", "in = readonly reference"], "example": "TryParse uses out to return parsed value.", "answer": "ref passes a variable by reference for reading/writing, out returns a value from method, and in passes readonly reference to avoid copying."}, {"n": 60, "topic": "Advanced C# and Memory", "q": "What is closure in C#?", "why": "Checks lambda internals and hidden memory behavior.", "visual": ["Lambda captures outside variable", "Compiler creates hidden object", "Variable lives longer"], "example": "Loop variable captured inside async callbacks can cause unexpected values.", "answer": "A closure happens when a lambda captures variables from its outer scope, extending their lifetime."}, {"n": 61, "topic": "ASP.NET Core Internals", "q": "What happens when an ASP.NET Core request arrives?", "why": "Checks full pipeline understanding.", "visual": ["Kestrel receives request", "Middleware pipeline runs", "Endpoint selected", "Action executes", "Response returned"], "example": "A GET /api/products request moves through routing, authentication, authorization, controller, service, and DB.", "answer": "Kestrel receives the request, middleware processes it, routing selects endpoint, action executes, and response flows back through the pipeline."}, {"n": 62, "topic": "ASP.NET Core Internals", "q": "What is Kestrel?", "why": "Checks hosting internals.", "visual": ["Client", "Kestrel web server", "ASP.NET Core app"], "example": "In IIS hosting, IIS can reverse-proxy requests to Kestrel.", "answer": "Kestrel is the cross-platform web server used by ASP.NET Core to handle HTTP requests."}, {"n": 63, "topic": "ASP.NET Core Internals", "q": "What is the Generic Host?", "why": "Checks app startup architecture.", "visual": ["Host builder", "Configuration", "Logging", "DI", "Hosted services"], "example": "Program.cs builds host, configures services, middleware, logging, and app lifetime.", "answer": "The Generic Host manages app startup, dependency injection, configuration, logging, lifetime, and hosted services."}, {"n": 64, "topic": "ASP.NET Core Internals", "q": "What is endpoint routing?", "why": "Checks routing internals.", "visual": ["Request path", "Endpoint matcher", "Selected endpoint metadata", "Endpoint execution"], "example": "/api/customers/5 maps to GetCustomer(int id).", "answer": "Endpoint routing matches incoming requests to endpoints and attaches endpoint metadata used by middleware like authorization."}, {"n": 65, "topic": "ASP.NET Core Internals", "q": "What is the difference between app.Use, app.Run, and app.Map?", "why": "Checks middleware pipeline coding.", "visual": ["Use = can call next", "Run = terminal middleware", "Map = branch pipeline"], "example": "Use for logging middleware; Run for final response; Map for path-specific branch.", "answer": "Use adds middleware that may call next. Run adds terminal middleware. Map creates a branch based on request path."}, {"n": 66, "topic": "ASP.NET Core Internals", "q": "What is the Options pattern?", "why": "Checks clean configuration usage.", "visual": ["Config section", "Bind to class", "Inject IOptions<T>", "Use typed settings"], "example": "JwtSettings class bound from appsettings.json.", "answer": "Options pattern binds configuration sections to strongly typed classes and injects them safely into services."}, {"n": 67, "topic": "ASP.NET Core Internals", "q": "What is IHttpContextAccessor?", "why": "Checks request context awareness.", "visual": ["Current HTTP request", "HttpContextAccessor", "Service reads user/request data"], "example": "Audit service reads current user id from claims.", "answer": "IHttpContextAccessor allows services outside controllers to access the current HttpContext, but it should be used carefully to avoid tight coupling."}, {"n": 68, "topic": "ASP.NET Core Internals", "q": "What is model binding pipeline internally?", "why": "Checks how request data becomes C# objects.", "visual": ["Value providers", "Model binder", "Validation", "Action parameter"], "example": "Route id, query filter, and body DTO bind into action method parameters.", "answer": "Model binding uses value providers and binders to create action parameters from route, query, form, headers, and body data."}, {"n": 69, "topic": "ASP.NET Core Internals", "q": "What is filter pipeline in ASP.NET Core MVC/API?", "why": "Checks cross-cutting concern knowledge.", "visual": ["Authorization filter", "Resource filter", "Action filter", "Exception filter", "Result filter"], "example": "Action filter logs execution time for all API actions.", "answer": "Filters run around action execution and are used for authorization, caching, logging, exception handling, and result processing."}, {"n": 70, "topic": "ASP.NET Core Internals", "q": "What is minimal API vs controller API?", "why": "Checks modern API style understanding.", "visual": ["Minimal API = endpoint in Program.cs", "Controller API = class/action structure", "Both use same ASP.NET Core pipeline"], "example": "Minimal API suits small services; controllers suit large structured apps.", "answer": "Minimal APIs define endpoints with minimal ceremony. Controllers provide structured action-based organization, filters, model binding, and conventions."}, {"n": 71, "topic": "Web API Security and Performance", "q": "How do you secure a Web API?", "why": "Checks complete security thinking.", "visual": ["HTTPS", "Authentication", "Authorization", "Validation", "Logging", "Rate limiting"], "example": "Use JWT, roles/policies, CORS, input validation, and audit logging.", "answer": "Secure APIs using HTTPS, strong authentication, authorization policies, validation, CORS restrictions, rate limiting, logging, and safe error handling."}, {"n": 72, "topic": "Web API Security and Performance", "q": "JWT vs cookie authentication?", "why": "Checks auth strategy selection.", "visual": ["JWT = token in header", "Cookie = browser-managed session", "Choose based on client type"], "example": "Angular/mobile often use JWT. MVC server-rendered apps commonly use cookies.", "answer": "JWT is stateless and suitable for APIs and mobile clients. Cookie auth is browser-friendly and common for server-rendered web apps."}, {"n": 73, "topic": "Web API Security and Performance", "q": "How do you protect API from SQL injection?", "why": "Checks security fundamentals.", "visual": ["User input", "Parameterized query/EF", "Database receives safe parameters"], "example": "Use EF Core LINQ or SqlParameter instead of string concatenation.", "answer": "Use parameterized queries, EF Core LINQ, stored procedure parameters, validation, and never concatenate raw user input into SQL."}, {"n": 74, "topic": "Web API Security and Performance", "q": "How do you handle API errors properly?", "why": "Checks production readiness.", "visual": ["Exception occurs", "Global handler catches", "Log details", "Return safe response"], "example": "Use exception middleware to return ProblemDetails without exposing stack trace.", "answer": "Use centralized exception handling, structured logging, safe error responses, and appropriate status codes."}, {"n": 75, "topic": "Web API Security and Performance", "q": "What is caching in API?", "why": "Checks performance optimization.", "visual": ["Request", "Cache lookup", "Return cached data or call DB", "Store result"], "example": "Cache country/state/city master data to reduce database load.", "answer": "Caching stores frequently used data temporarily to reduce expensive database or external calls."}, {"n": 76, "topic": "Web API Security and Performance", "q": "Response caching vs distributed caching?", "why": "Checks caching architecture.", "visual": ["Response cache = HTTP response reuse", "Distributed cache = shared cache store", "Multiple servers can share Redis"], "example": "Use Redis distributed cache in load-balanced environment.", "answer": "Response caching caches HTTP responses. Distributed caching stores data in a shared cache like Redis for use across app instances."}, {"n": 77, "topic": "Web API Security and Performance", "q": "How do you improve slow API performance?", "why": "Checks practical troubleshooting.", "visual": ["Measure", "Find bottleneck", "Optimize DB/query/cache/code", "Monitor again"], "example": "Check slow SQL, missing indexes, large payloads, N+1 queries, blocking calls.", "answer": "First measure using logs/profiling, then optimize database queries, indexes, caching, payload size, async I/O, and external calls."}, {"n": 78, "topic": "Web API Security and Performance", "q": "What is pagination and why needed?", "why": "Checks scalable API response design.", "visual": ["Large dataset", "Page size limit", "Return small chunk", "Client requests next page"], "example": "Return 20 policies per page instead of 50,000 rows.", "answer": "Pagination limits data returned per request, improving performance, memory use, and user experience."}, {"n": 79, "topic": "Web API Security and Performance", "q": "What is idempotency in API?", "why": "Important for payment/order systems.", "visual": ["Same request repeated", "Server detects same operation", "No duplicate effect"], "example": "Payment retry should not create duplicate ledger entries.", "answer": "Idempotency means repeated identical requests produce the same final result without duplicate side effects."}, {"n": 80, "topic": "Web API Security and Performance", "q": "How do you handle concurrency in Web API?", "why": "Checks data consistency in multi-user systems.", "visual": ["Two users edit same record", "Version/token checked", "Conflict detected", "Safe update/retry"], "example": "Use row version column in EF Core to prevent lost updates.", "answer": "Use optimistic concurrency with row version/timestamp, transactions, proper isolation, and conflict handling."}, {"n": 81, "topic": "SQL Server Query Optimization", "q": "How do you analyze a slow SQL query?", "why": "Checks practical DBA/developer skill.", "visual": ["Capture query", "Check execution plan", "Find scan/sort/key lookup", "Add index/rewrite query"], "example": "Use Actual Execution Plan and STATISTICS IO/TIME.", "answer": "Analyze slow queries using execution plans, IO/time statistics, indexes, joins, filters, and row counts."}, {"n": 82, "topic": "SQL Server Query Optimization", "q": "What is execution plan?", "why": "Core SQL optimization topic.", "visual": ["SQL query", "Optimizer chooses plan", "Operators execute", "Result returned"], "example": "Execution plan shows index seek, table scan, nested loop, hash join.", "answer": "An execution plan shows how SQL Server intends to or actually does execute a query."}, {"n": 83, "topic": "SQL Server Query Optimization", "q": "Index seek vs index scan?", "why": "Common performance question.", "visual": ["Seek = go directly to matching range", "Scan = read many/all index rows", "Seek usually faster for selective filters"], "example": "WHERE PolicyNumber = 'P123' should ideally use seek.", "answer": "Index seek directly finds matching rows using index structure. Index scan reads many or all index rows."}, {"n": 84, "topic": "SQL Server Query Optimization", "q": "What is covering index?", "why": "Checks advanced indexing.", "visual": ["Query needs columns A,B,C", "Index contains A,B,C", "No extra table lookup"], "example": "Index on PolicyNumber include Premium, CustomerName for search list.", "answer": "A covering index contains all columns needed by a query, avoiding extra lookups to base table."}, {"n": 85, "topic": "SQL Server Query Optimization", "q": "What is key lookup?", "why": "Checks execution plan reading.", "visual": ["Nonclustered index finds key", "SQL goes to clustered index", "Fetch missing columns"], "example": "Selecting many columns from an index that does not include them causes key lookups.", "answer": "Key lookup happens when SQL Server uses a non-clustered index but must fetch missing columns from the clustered index/table."}, {"n": 86, "topic": "SQL Server Query Optimization", "q": "What is parameter sniffing?", "why": "Advanced real-world SQL issue.", "visual": ["Procedure compiles for first parameter", "Plan cached", "Different parameter uses bad plan"], "example": "A stored procedure optimized for small customer may be slow for large customer.", "answer": "Parameter sniffing occurs when SQL Server caches a plan based on one parameter value that may not suit later values."}, {"n": 87, "topic": "SQL Server Query Optimization", "q": "How do joins affect performance?", "why": "Checks relational query design.", "visual": ["Small filtered input", "Join on indexed keys", "Return required columns only"], "example": "Join Orders to Customers using indexed CustomerId.", "answer": "Joins perform best when filtered early, joined on indexed keys, and unnecessary columns/rows are avoided."}, {"n": 88, "topic": "SQL Server Query Optimization", "q": "What is N+1 query problem?", "why": "Important EF Core + SQL performance issue.", "visual": ["Load list once", "Then one query per row", "Many database round trips"], "example": "Loading orders then querying customer for each order separately.", "answer": "N+1 happens when code runs one query for a list and then additional queries for each item. Use Include, projection, or joins."}, {"n": 89, "topic": "SQL Server Query Optimization", "q": "What is transaction isolation level?", "why": "Checks concurrency and locking knowledge.", "visual": ["Read uncommitted", "Read committed", "Repeatable read", "Serializable", "Snapshot"], "example": "Higher isolation reduces inconsistency but may increase blocking.", "answer": "Isolation level controls how transactions interact and what changes are visible during concurrent operations."}, {"n": 90, "topic": "SQL Server Query Optimization", "q": "How do you design indexes for a table?", "why": "Checks practical database design.", "visual": ["Study WHERE/JOIN/ORDER BY", "Create selective indexes", "Include needed columns", "Avoid over-indexing"], "example": "For policy search, index PolicyNumber, CustomerId, CreatedDate depending on usage.", "answer": "Design indexes from real query patterns: filters, joins, sorting, selectivity, included columns, and write cost."}, {"n": 91, "topic": "Angular Advanced", "q": "What is Angular change detection?", "why": "Checks Angular internals.", "visual": ["State changes", "Angular checks bindings", "DOM updates where needed"], "example": "When API data arrives, template updates automatically.", "answer": "Change detection is Angular’s process of checking component state and updating the DOM when bound data changes."}, {"n": 92, "topic": "Angular Advanced", "q": "Default vs OnPush change detection?", "why": "Performance-focused Angular question.", "visual": ["Default checks often", "OnPush checks on input/reference/event/observable", "Less work"], "example": "Use OnPush for reusable list/card components.", "answer": "Default checks broadly. OnPush reduces checks by updating mainly when inputs change by reference, events occur, or observables emit."}, {"n": 93, "topic": "Angular Advanced", "q": "What is RxJS pipe and operators?", "why": "Angular uses RxJS heavily.", "visual": ["Observable source", "pipe()", "map/filter/switchMap", "subscribe/result"], "example": "Search box uses debounceTime and switchMap to call API efficiently.", "answer": "pipe composes RxJS operators to transform, filter, combine, or control observable streams."}, {"n": 94, "topic": "Angular Advanced", "q": "switchMap vs mergeMap vs concatMap?", "why": "Advanced RxJS practical question.", "visual": ["switchMap cancels previous", "mergeMap runs parallel", "concatMap queues in order"], "example": "Use switchMap for search API; concatMap for ordered saves.", "answer": "switchMap cancels previous inner observable, mergeMap runs concurrently, concatMap runs one after another in order."}, {"n": 95, "topic": "Angular Advanced", "q": "What is route guard in Angular?", "why": "Checks frontend security flow.", "visual": ["Navigation attempt", "Guard checks auth/permission", "Allow or redirect"], "example": "AuthGuard prevents non-logged-in users from opening dashboard.", "answer": "A route guard controls navigation based on conditions like authentication, roles, or unsaved changes."}, {"n": 96, "topic": "Angular Advanced", "q": "What is HTTP interceptor?", "why": "Very common Angular API integration question.", "visual": ["Component calls service", "Interceptor modifies request", "API receives token/header", "Interceptor handles response/error"], "example": "Add JWT token to every API request.", "answer": "An HTTP interceptor sits between Angular HttpClient and the server to modify requests/responses or handle errors globally."}, {"n": 97, "topic": "Angular Advanced", "q": "Reactive forms vs template-driven forms?", "why": "Checks form strategy understanding.", "visual": ["Template-driven = simple HTML-driven", "Reactive = model-driven TypeScript", "Reactive better for complex validation"], "example": "Use reactive forms for registration, dynamic fields, and conditional validation.", "answer": "Template-driven forms are simpler and template-based. Reactive forms are explicit, scalable, testable, and better for complex forms."}, {"n": 98, "topic": "Angular Advanced", "q": "What is lazy loading in Angular?", "why": "Checks performance optimization.", "visual": ["Initial app loads small bundle", "Feature module loads on route demand", "Faster startup"], "example": "Admin module loads only when user visits /admin.", "answer": "Lazy loading loads feature code only when needed, reducing initial bundle size and improving startup performance."}, {"n": 99, "topic": "Angular Advanced", "q": "How do Angular component communication patterns work?", "why": "Checks practical UI architecture.", "visual": ["Parent to child = @Input", "Child to parent = @Output", "Unrelated components = service/store"], "example": "ProductList sends selected product to ProductDetail using input/output or shared service.", "answer": "Components communicate using @Input, @Output/EventEmitter, services, observables, or state management depending on relationship."}, {"n": 100, "topic": "Angular Advanced", "q": "How do you optimize Angular application performance?", "why": "Checks senior frontend thinking.", "visual": ["Lazy load", "OnPush", "trackBy", "Unsubscribe", "Optimize API/payload", "Bundle analysis"], "example": "Use trackBy in ngFor, lazy-loaded modules, compressed assets, and avoid unnecessary subscriptions.", "answer": "Optimize Angular by lazy loading, OnPush change detection, trackBy, proper subscription handling, smaller bundles, caching, and efficient API payloads."}];
+    const topics = ["C# Core", "Advanced C#", ".NET Core", "ASP.NET Core Web API", "EF Core + SQL Server", "Angular", "Advanced C# and Memory", "ASP.NET Core Internals", "Web API Security and Performance", "SQL Server Query Optimization", "Angular Advanced"];
+    const opened = new Set();
 
-        function createCard(item, prefix) {
-            const id = `${prefix}-q${item.n}`;
-            const searchText = `${item.q} ${item.topic} ${item.answer} ${item.example} ${item.why}`.toLowerCase();
+    const iconMap = {
+      "C# Core":"bi-braces",
+      "Advanced C#":"bi-cpu",
+      ".NET Core":"bi-boxes",
+      "ASP.NET Core Web API":"bi-hdd-network",
+      "EF Core + SQL Server":"bi-database",
+      "Angular":"bi-triangle",
+      "Advanced C# and Memory":"bi-memory",
+      "ASP.NET Core Internals":"bi-diagram-3",
+      "Web API Security and Performance":"bi-shield-lock",
+      "SQL Server Query Optimization":"bi-speedometer2",
+      "Angular Advanced":"bi-lightning-charge"
+    };
 
-            return `
-                <article class="question-card searchable-card" data-number="${item.n}" data-topic="${escapeHtml(item.topic)}" data-text="${escapeHtml(searchText)}">
-                    <div class="question-head" role="button" tabindex="0" data-bs-toggle="collapse" data-bs-target="#${id}" aria-controls="${id}" aria-expanded="false" onclick="markOpened(${item.n})" onkeydown="handleCardKey(event, '${id}', ${item.n})">
-                        <div class="q-left">
-                            <div class="q-number">${item.n}</div>
-                            <div>
-                                <h5 class="question-title">${escapeHtml(item.q)}</h5>
-                                <span class="topic-label"><i class="bi ${topicIcons[item.topic] || 'bi-book'}"></i> ${escapeHtml(item.topic)}</span>
-                            </div>
-                        </div>
-                        <i class="bi bi-chevron-down fs-5 text-secondary chevron"></i>
-                    </div>
-                    <div id="${id}" class="collapse" data-qno="${item.n}">
-                        <div class="answer-body">
-                            <div class="answer-block">
-                                <div class="mini-heading"><i class="bi bi-question-circle me-1"></i> Why this is asked</div>
-                                <div class="note-box">${escapeHtml(item.why)}</div>
+    const colorMap = {
+      "C# Core":"#6d5dfc",
+      "Advanced C#":"#fd79a8",
+      ".NET Core":"#00cec9",
+      "ASP.NET Core Web API":"#fdcb6e",
+      "EF Core + SQL Server":"#00b894",
+      "Angular":"#ff7675",
+      "Advanced C# and Memory":"#8e44ad",
+      "ASP.NET Core Internals":"#0984e3",
+      "Web API Security and Performance":"#e17055",
+      "SQL Server Query Optimization":"#00b894",
+      "Angular Advanced":"#dd0031"
+    };
 
-                                <div class="mini-heading"><i class="bi bi-diagram-3 me-1"></i> Visualize it</div>
-                                <div class="visual-box">${escapeHtml(item.visual)}</div>
+    let activeTopic = "All";
 
-                                <div class="mini-heading"><i class="bi bi-briefcase me-1"></i> Practical / real-world example</div>
-                                <div class="note-box">${escapeHtml(item.example)}</div>
+    function esc(v){
+      return String(v)
+        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
 
-                                <div class="mini-heading"><i class="bi bi-mic me-1"></i> Final interview answer</div>
-                                <div class="answer-line">${escapeHtml(item.answer)}</div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            `;
-        }
+    function renderTabs(){
+      const tabs = document.getElementById("topicTabs");
+      const allBtn = `<button class="active" type="button" data-topic="All" onclick="setTopic('All')"><i class="bi bi-grid me-1"></i> All</button>`;
+      const topicBtns = topics.map(t => `<button type="button" data-topic="${esc(t)}" onclick="setTopic('${esc(t)}')"><i class="bi ${iconMap[t] || 'bi-book'} me-1"></i> ${esc(t)}</button>`).join("");
+      tabs.innerHTML = allBtn + topicBtns;
 
-        function renderCards() {
-            const allContainer = document.getElementById("questionListAll");
-            allContainer.innerHTML = questions.map(q => createCard(q, "all")).join("");
+      const side = document.getElementById("sideIndex");
+      side.innerHTML = topics.map(t => {
+        const count = questions.filter(q => q.topic === t).length;
+        return `<a href="#" class="topic-link" onclick="setTopic('${esc(t)}');return false;"><span><span class="dot" style="background:${colorMap[t] || '#6d5dfc'}"></span>${esc(t)}</span><span>${count}</span></a>`;
+      }).join("");
+    }
 
-            document.querySelectorAll(".topic-container").forEach(container => {
-                const topic = container.dataset.renderTopic;
-                const prefix = container.dataset.prefix;
-                container.innerHTML = questions
-                    .filter(q => q.topic === topic)
-                    .map(q => createCard(q, prefix))
-                    .join("");
-            });
+    function card(q){
+      const search = `${q.n} ${q.topic} ${q.q} ${q.why} ${q.visual.join(" ")} ${q.example} ${q.answer}`.toLowerCase();
+      const nodes = q.visual.map((v,i)=>`
+        <div class="flow-node">
+          <span class="flow-index">${i+1}</span>
+          <span>${esc(v)}</span>
+        </div>`).join("");
 
-            bindCollapseEvents();
-        }
+      return `
+      <article class="question-card searchable-card" data-topic="${esc(q.topic)}" data-number="${q.n}" data-text="${esc(search)}">
+        <div class="question-head" role="button" tabindex="0" data-bs-toggle="collapse" data-bs-target="#q${q.n}" aria-controls="q${q.n}" aria-expanded="false" onclick="markOpened(${q.n})" onkeydown="handleKey(event,'q${q.n}',${q.n})">
+          <div class="q-left">
+            <div class="num">${q.n}</div>
+            <div>
+              <h5 class="q-title">${esc(q.q)}</h5>
+              <span class="tag"><i class="bi ${iconMap[q.topic] || 'bi-book'}"></i> ${esc(q.topic)}</span>
+            </div>
+          </div>
+          <i class="bi bi-chevron-down fs-5 text-secondary chev"></i>
+        </div>
+        <div id="q${q.n}" class="collapse" data-qno="${q.n}">
+          <div class="answer">
+            <div class="answer-inner">
+              <p class="mini-title"><i class="bi bi-question-circle me-1"></i> Why this is asked</p>
+              <div class="note">${esc(q.why)}</div>
 
-        function bindCollapseEvents() {
-            document.querySelectorAll(".collapse[data-qno]").forEach(el => {
-                el.addEventListener("shown.bs.collapse", () => {
-                    opened.add(Number(el.dataset.qno));
-                    updateProgress();
-                });
-            });
-        }
+              <p class="mini-title"><i class="bi bi-diagram-3 me-1"></i> Visualize it practically</p>
+              <div class="visual-flow">${nodes}</div>
 
-        function handleCardKey(event, collapseId, qNo) {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                const el = document.getElementById(collapseId);
-                bootstrap.Collapse.getOrCreateInstance(el).toggle();
-                markOpened(qNo);
-            }
-        }
+              <p class="mini-title"><i class="bi bi-briefcase me-1"></i> Practical / real-world example</p>
+              <div class="note">${esc(q.example)}</div>
 
-        function markOpened(num) {
-            opened.add(num);
-            updateProgress();
-        }
+              <p class="mini-title"><i class="bi bi-mic me-1"></i> Final interview answer</p>
+              <div class="answer-line">${esc(q.answer)}</div>
+            </div>
+          </div>
+        </div>
+      </article>`;
+    }
 
-        function updateProgress() {
-            const total = questions.length;
-            const count = opened.size;
-            document.getElementById("progressText").innerText = `${count} / ${total} opened`;
-            document.getElementById("progressFill").style.width = `${(count / total) * 100}%`;
-        }
-
-        function getActivePane() {
-            return document.querySelector(".tab-pane.active.show") || document.getElementById("all");
-        }
-
-        function expandVisible() {
-            const activePane = getActivePane();
-            activePane.querySelectorAll(".searchable-card").forEach(card => {
-                if (card.style.display !== "none") {
-                    const collapse = card.querySelector(".collapse");
-                    bootstrap.Collapse.getOrCreateInstance(collapse, { toggle: false }).show();
-                    opened.add(Number(card.dataset.number));
-                }
-            });
-            updateProgress();
-        }
-
-        function collapseAll() {
-            document.querySelectorAll(".collapse").forEach(el => {
-                bootstrap.Collapse.getOrCreateInstance(el, { toggle: false }).hide();
-            });
-        }
-
-        function searchQuestions() {
-            const term = document.getElementById("searchInput").value.trim().toLowerCase();
-            const activePane = getActivePane();
-            let visibleCount = 0;
-
-            activePane.querySelectorAll(".searchable-card").forEach(card => {
-                const match = card.dataset.text.includes(term);
-                card.style.display = match ? "" : "none";
-                if (match) visibleCount++;
-            });
-
-            document.getElementById("noResult").style.display = visibleCount === 0 ? "block" : "none";
-        }
-
-        function resetSearchForActiveTab() {
-            document.querySelectorAll(".searchable-card").forEach(card => card.style.display = "");
-            document.getElementById("noResult").style.display = "none";
-            searchQuestions();
-        }
-
-        function activateTopic(topic) {
-            const tab = document.querySelector(`[data-topic-filter="${CSS.escape(topic)}"]`);
-            if (tab) {
-                bootstrap.Tab.getOrCreateInstance(tab).show();
-                setTimeout(() => window.scrollTo({ top: document.querySelector(".topic-tabs-wrapper").offsetTop, behavior: "smooth" }), 80);
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            renderCards();
-            updateProgress();
-
-            document.getElementById("searchInput").addEventListener("input", searchQuestions);
-
-            document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
-                tab.addEventListener("shown.bs.tab", () => {
-                    resetSearchForActiveTab();
-                });
-            });
+    function renderQuestions(){
+      const list = document.getElementById("questionList");
+      const filtered = activeTopic === "All" ? questions : questions.filter(q => q.topic === activeTopic);
+      list.innerHTML = filtered.map(card).join("");
+      document.querySelectorAll(".collapse[data-qno]").forEach(el => {
+        el.addEventListener("shown.bs.collapse", () => {
+          opened.add(Number(el.dataset.qno));
+          updateProgress();
         });
-    </script>
+      });
+      searchQuestions();
+    }
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    function setTopic(topic){
+      activeTopic = topic;
+      document.querySelectorAll("#topicTabs button").forEach(b => b.classList.toggle("active", b.dataset.topic === topic));
+      renderQuestions();
+      document.querySelector(".tabs-sticky").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    function markOpened(n){
+      opened.add(n);
+      updateProgress();
+    }
+
+    function updateProgress(){
+      const total = questions.length;
+      const count = opened.size;
+      document.getElementById("progressText").innerText = `${count} / ${total} opened`;
+      document.getElementById("progressFill").style.width = `${(count/total)*100}%`;
+    }
+
+    function handleKey(e,id,n){
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        bootstrap.Collapse.getOrCreateInstance(document.getElementById(id)).toggle();
+        markOpened(n);
+      }
+    }
+
+    function expandVisible(){
+      document.querySelectorAll(".searchable-card").forEach(c => {
+        if(c.style.display !== "none"){
+          const el = c.querySelector(".collapse");
+          bootstrap.Collapse.getOrCreateInstance(el,{toggle:false}).show();
+          opened.add(Number(c.dataset.number));
+        }
+      });
+      updateProgress();
+    }
+
+    function collapseAll(){
+      document.querySelectorAll(".collapse").forEach(el => bootstrap.Collapse.getOrCreateInstance(el,{toggle:false}).hide());
+    }
+
+    function searchQuestions(){
+      const term = document.getElementById("searchInput").value.trim().toLowerCase();
+      let visible = 0;
+      document.querySelectorAll(".searchable-card").forEach(c => {
+        const match = c.dataset.text.includes(term);
+        c.style.display = match ? "" : "none";
+        if(match) visible++;
+      });
+      document.getElementById("noResult").style.display = visible === 0 ? "block" : "none";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderTabs();
+      renderQuestions();
+      updateProgress();
+      document.getElementById("searchInput").addEventListener("input", searchQuestions);
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
