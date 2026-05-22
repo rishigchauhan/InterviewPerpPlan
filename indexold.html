@@ -59,45 +59,6 @@
     .answer-text { font-size:1rem; line-height:1.8; color:#064e3b; }
     .empty-state { display:none; }
     .empty-state.show { display:block; }
-
-    /* Practical Stack vs Heap visual for Q1 */
-    .memory-lab { display:grid; gap:18px; }
-    .memory-title-row { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-    .memory-title-row .scenario-pill { border-radius:999px; padding:6px 12px; background:#eef2ff; color:#3730a3; font-weight:800; font-size:.78rem; }
-    .memory-flow { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .memory-flow .flow-chip { background:#fff; border:1px solid #dbe3ef; border-radius:999px; padding:8px 12px; font-weight:800; color:#334155; box-shadow:0 6px 18px rgba(15,23,42,.05); }
-    .memory-flow .flow-arrow { color:#64748b; font-weight:900; }
-    .memory-board { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .memory-zone { background:#fff; border:1px solid #e2e8f0; border-radius:22px; overflow:hidden; box-shadow:0 12px 30px rgba(15,23,42,.06); }
-    .zone-head { padding:12px 14px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e2e8f0; font-weight:900; letter-spacing:.04em; text-transform:uppercase; font-size:.8rem; }
-    .stack-zone .zone-head { background:#eef2ff; color:#3730a3; }
-    .heap-zone .zone-head { background:#ecfdf5; color:#047857; }
-    .zone-sub { font-size:.72rem; text-transform:none; letter-spacing:0; font-weight:700; color:#64748b; }
-    .memory-cells { padding:14px; display:grid; gap:10px; }
-    .stack-frame { border:1px dashed #c7d2fe; background:#f8fafc; border-radius:16px; padding:10px; }
-    .stack-frame-title { font-size:.76rem; color:#475569; font-weight:900; margin-bottom:8px; display:flex; justify-content:space-between; }
-    .var-row { display:grid; grid-template-columns:72px 1fr; gap:8px; align-items:center; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:8px 10px; margin-top:7px; }
-    .var-name { font-weight:900; color:#0f172a; }
-    .var-value { font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; color:#334155; }
-    .value-copy { background:#dbeafe; border:1px solid #93c5fd; color:#1e3a8a; border-radius:10px; padding:3px 8px; font-weight:900; }
-    .ref-chip { background:#dcfce7; border:1px solid #86efac; color:#166534; border-radius:10px; padding:3px 8px; font-weight:900; }
-    .heap-object { border:1px solid #86efac; background:#f0fdf4; border-radius:18px; padding:12px; position:relative; }
-    .heap-object::before { content:"0x7F-A1"; position:absolute; right:12px; top:10px; font-size:.72rem; color:#047857; font-weight:900; background:white; border:1px solid #bbf7d0; border-radius:999px; padding:2px 8px; }
-    .heap-object-title { font-weight:900; color:#065f46; padding-right:80px; }
-    .list-items { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
-    .list-items span { width:38px; height:34px; border-radius:10px; display:grid; place-items:center; background:white; border:1px solid #bbf7d0; color:#065f46; font-weight:900; }
-    .list-items span.new-item { background:#dcfce7; border-color:#22c55e; animation:pulseItem 1.4s infinite; }
-    @keyframes pulseItem { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
-    .memory-arrows { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:center; }
-    .arrow-note { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; border-radius:16px; padding:12px; font-weight:700; line-height:1.55; }
-    .compare-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-    .compare-card { background:white; border:1px solid #e2e8f0; border-radius:18px; padding:14px; }
-    .compare-card h4 { font-size:.95rem; margin:0 0 10px; font-weight:900; }
-    .compare-card.good h4 { color:#047857; } .compare-card.warn h4 { color:#b45309; }
-    .mini-code { font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:.78rem; background:#0f172a; color:#e2e8f0; border-radius:12px; padding:10px; overflow:auto; }
-    .memory-takeaway { background:linear-gradient(135deg,#eef2ff,#ecfeff); border:1px solid #c7d2fe; border-radius:18px; padding:14px; font-weight:800; color:#1e293b; }
-    @media (max-width: 767.98px) { .memory-board,.memory-arrows,.compare-grid { grid-template-columns:1fr; } .memory-flow .flow-arrow { transform:rotate(90deg); } }
-
     @media (max-width: 991.98px) {
       .hero { border-radius:0 0 28px 28px; }
       .question-card summary { padding:16px; }
@@ -233,88 +194,34 @@ p2.X = 99;
 Console.WriteLine(p1.X); // 1 — unchanged</code></pre></div>
     </div>
         <div class="study-section ">
-      <div class="section-label"><i class="bi bi-bezier2"></i> Visualize it — Practical Stack vs Heap Story</div>
-      <div class="section-content">
-        <div class="diagram-box">
-          <div class="memory-lab">
-            <div class="memory-title-row">
-              <div>
-                <h4 class="mb-1 fw-black">Real memory story: value copy vs shared reference</h4>
-                <p class="mb-0 text-secondary">Think of <strong>Stack</strong> as short-lived variable slots and <strong>Heap</strong> as the object warehouse.</p>
-              </div>
-              <span class="scenario-pill"><i class="bi bi-cpu me-1"></i> Debugger-style view</span>
-            </div>
-
-            <div class="memory-flow" aria-label="Execution steps">
-              <span class="flow-chip">1. Create variables</span>
-              <span class="flow-arrow">→</span>
-              <span class="flow-chip">2. Copy value / copy address</span>
-              <span class="flow-arrow">→</span>
-              <span class="flow-chip">3. Modify one variable</span>
-              <span class="flow-arrow">→</span>
-              <span class="flow-chip">4. Observe result</span>
-            </div>
-
-            <div class="memory-board">
-              <div class="memory-zone stack-zone">
-                <div class="zone-head">Stack <span class="zone-sub">fast variable slots / method frames</span></div>
-                <div class="memory-cells">
-                  <div class="stack-frame">
-                    <div class="stack-frame-title"><span>Main() frame</span><span>Value types</span></div>
-                    <div class="var-row"><div class="var-name">a</div><div class="var-value"><span class="value-copy">10</span> original value</div></div>
-                    <div class="var-row"><div class="var-name">b</div><div class="var-value"><span class="value-copy">99</span> own copy after b = a</div></div>
-                  </div>
-                  <div class="stack-frame">
-                    <div class="stack-frame-title"><span>Main() frame</span><span>Reference types</span></div>
-                    <div class="var-row"><div class="var-name">list1</div><div class="var-value"><span class="ref-chip">0x7F-A1</span> address only</div></div>
-                    <div class="var-row"><div class="var-name">list2</div><div class="var-value"><span class="ref-chip">0x7F-A1</span> same address copied</div></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="memory-zone heap-zone">
-                <div class="zone-head">Heap <span class="zone-sub">objects live here until GC removes them</span></div>
-                <div class="memory-cells">
-                  <div class="heap-object">
-                    <div class="heap-object-title">List&lt;int&gt; object</div>
-                    <div class="text-secondary small mt-1">Both <code>list1</code> and <code>list2</code> point to this same object.</div>
-                    <div class="list-items" aria-label="List values after Add">
-                      <span>1</span><span>2</span><span>3</span><span class="new-item">4</span>
-                    </div>
-                    <div class="small text-success fw-bold mt-2"><i class="bi bi-check-circle me-1"></i> list2.Add(4) changes heap object, so list1 also sees Count = 4.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="memory-arrows">
-              <div class="arrow-note"><i class="bi bi-arrow-right-circle me-1"></i> <strong>Value type assignment:</strong> <code>b = a</code> copies the actual value. After <code>b = 99</code>, <code>a</code> remains <code>10</code>.</div>
-              <div class="arrow-note"><i class="bi bi-link-45deg me-1"></i> <strong>Reference type assignment:</strong> <code>list2 = list1</code> copies only the address. Both variables control the same heap object.</div>
-            </div>
-
-            <div class="compare-grid">
-              <div class="compare-card warn">
-                <h4><i class="bi bi-box-arrow-in-right me-1"></i> Passing struct to method</h4>
-                <div class="mini-code">UpdatePoint(p1);
-// method gets a copy
-// caller p1 remains unchanged</div>
-                <p class="small text-secondary mb-0 mt-2">Unless you use <code>ref</code>, the method works on a copied value.</p>
-              </div>
-              <div class="compare-card good">
-                <h4><i class="bi bi-share me-1"></i> Passing class/list to method</h4>
-                <div class="mini-code">AddItem(list1);
-// method gets same address
-// heap object is modified</div>
-                <p class="small text-secondary mb-0 mt-2">The reference is copied, but it still points to the same object.</p>
-              </div>
-            </div>
-
-            <div class="memory-takeaway">
-              <i class="bi bi-lightbulb me-1"></i> Interview line: <strong>Stack stores local variables and references; Heap stores reference-type objects. Value assignment copies data; reference assignment copies address.</strong>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="section-label"><i class="bi bi-bezier2"></i> Visualize it</div>
+      <div class="section-content"><div class="diagram-box"><svg width="100%" viewBox="0 0 680 300" role="img"><title>Value types vs reference types memory diagram</title><desc>Stack holds value types directly; stack holds reference that points to heap for reference types</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="40" y="30" width="240" height="240" rx="12" fill="none" stroke="var(--color-border-secondary)" stroke-width="1"/>
+<text x="160" y="54" text-anchor="middle" font-size="13" font-weight="500" fill="var(--color-text-secondary)">STACK</text>
+<rect x="60" y="68" width="200" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="86" text-anchor="middle" font-size="12" font-weight="500" fill="#0C447C">int a = 10</text>
+<text x="160" y="102" text-anchor="middle" font-size="11" fill="#185FA5">value: 10  (direct)</text>
+<rect x="60" y="126" width="200" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="144" text-anchor="middle" font-size="12" font-weight="500" fill="#0C447C">int b = a</text>
+<text x="160" y="160" text-anchor="middle" font-size="11" fill="#185FA5">value: 10  (own copy)</text>
+<rect x="60" y="188" width="200" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="160" y="206" text-anchor="middle" font-size="12" font-weight="500" fill="#085041">myObj  (reference)</text>
+<text x="160" y="222" text-anchor="middle" font-size="11" fill="#0F6E56">ptr → 0x4A2F</text>
+<rect x="400" y="30" width="240" height="240" rx="12" fill="none" stroke="var(--color-border-secondary)" stroke-width="1"/>
+<text x="520" y="54" text-anchor="middle" font-size="13" font-weight="500" fill="var(--color-text-secondary)">HEAP</text>
+<rect x="420" y="80" width="200" height="160" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="106" text-anchor="middle" font-size="12" font-weight="500" fill="#085041">MyClass object</text>
+<text x="520" y="124" text-anchor="middle" font-size="11" fill="#0F6E56">addr: 0x4A2F</text>
+<rect x="436" y="138" width="168" height="28" rx="6" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="156" text-anchor="middle" font-size="11" fill="#085041">Name = "Alice"</text>
+<rect x="436" y="172" width="168" height="28" rx="6" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="190" text-anchor="middle" font-size="11" fill="#085041">Age = 30</text>
+<rect x="436" y="206" width="168" height="28" rx="6" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="224" text-anchor="middle" font-size="11" fill="#085041">Scores = [90, 85]</text>
+<line x1="260" y1="210" x2="418" y2="160" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="328" y="178" text-anchor="middle" font-size="11" fill="var(--color-text-secondary)">points to</text>
+</svg></div></div>
     </div>
         <div class="study-section answer-section">
       <div class="section-label"><i class="bi bi-check2-circle"></i> Final interview answer</div>
